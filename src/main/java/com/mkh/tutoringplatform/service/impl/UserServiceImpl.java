@@ -4,17 +4,19 @@ import com.mkh.tutoringplatform.domain.exception.ResourceNotFoundException;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.repository.UserRepository;
+import com.mkh.tutoringplatform.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -39,8 +41,10 @@ public class UserService {
         userRepository.save(updatedUser);
     }
 
-    public User getByEmail(String email) {
-        System.out.println(userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new));
-        return userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+    public Optional<User> getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    public Optional<User> getByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
