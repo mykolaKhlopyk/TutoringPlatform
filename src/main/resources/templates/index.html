@@ -8,5 +8,7 @@
 <div th:each="p : ${users}">
   <a th:text="${p.id+'. '+p.username+', '+p.password}">user</a>
 </div>
+
+<a href="/auth/logout">logout</a>
 </body>
 </html>

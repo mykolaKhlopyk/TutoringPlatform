@@ -11,26 +11,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServlet;
 
 
 @EnableWebSecurity
 @AllArgsConstructor
 public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
-    private  final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/auth/login","/auth/registration", "/error").permitAll()
-                .anyRequest().authenticated().
-                and()
+                .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
                 .defaultSuccessUrl("/index", true)
-                .failureUrl("/auth/login?error");
+                .failureUrl("/auth/login?error")
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");
     }
 
     @Override
@@ -39,7 +40,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
