@@ -30,7 +30,7 @@ public class User {
 
     @NotNull
     @NotEmpty(message = "not empty")
-    @Size(min = 6, max = 16, message = "Password should be between 6 and 16 characters")
+    @Size(min = 6, max = 255, message = "Password should be between 6 and 16 characters")
     private String password;
 
     @NotNull
