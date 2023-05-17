@@ -5,6 +5,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>New User registration</title>
     <style>
+        .btn-primary {
+            background-color: #1bbc9b;
+        }
+
+        .btn-primary.checked {
+            background-color: #0b4b3e;
+        }
+
+        .btn-primary:focus {
+            background-color: #1bbc9b;
+        }
 
     </style>
 </head>
@@ -78,16 +89,47 @@
         </div>
     </div>
 
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button style="background-color: #1bbc9b" type="button" class="btn btn-primary">Left</button>
-        <button style="background-color: #1bbc9b" type="button" class="btn btn-primary">Middle</button>
-        <button style="background-color: #1bbc9b" type="button" class="btn btn-primary">Right</button>
+
+<!--    <div class="form-group">-->
+<!--        <label class="col-sm-2 control-label">Role:</label>-->
+<!--        <div class="col-sm-8">-->
+
+<!--            <div class="btn-group" role="group" aria-label="Basic example">-->
+<!--                <input type="radio" name="role" id="leftRadio" value="teacher" hidden>-->
+<!--                <label class="btn btn-primary" for="leftRadio">teacher</label>-->
+
+<!--                <input type="radio" name="role" id="middleRadio" value="student" hidden>-->
+<!--                <label class="btn btn-primary" for="middleRadio">student</label>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Role:</label>
+        <div class="col-sm-8">
+            <label class="btn btn-primary" for="leftRadio" onclick="changeColor(this)">
+                <input type="radio" name="role" id="leftRadio" value="teacher" hidden>teacher
+            </label>
+            <label class="btn btn-primary" for="middleRadio" onclick="changeColor(this)">
+                <input type="radio" name="role" id="middleRadio" value="student" hidden>student
+            </label>
+        </div>
     </div>
 
-    <div>
-        <input style="background-color: #1bbc9b"  type="submit" class="btn btn-info" value="Register"/>
+    <div class="form-group">
+        <input style="background-color: #1bbc9b" type="submit" class="btn btn-info" value="Register"/>
         <input type="reset" class="btn btn" value="Clear"/>
     </div>
+
 </form>
+
+<script>
+    function changeColor(element) {
+        var buttons = document.getElementsByClassName('btn-primary');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('checked');
+        }
+        element.classList.add('checked');
+    }
+</script>
 </body>
 </html>

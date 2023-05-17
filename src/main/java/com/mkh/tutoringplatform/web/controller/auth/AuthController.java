@@ -1,5 +1,6 @@
 package com.mkh.tutoringplatform.web.controller.auth;
 
+import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.service.RegistrationService;
 import com.mkh.tutoringplatform.web.validaton.UserValidator;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -31,12 +34,17 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("user") User user){
+    public String registrationPage(@ModelAttribute("user") User user, @ModelAttribute("role") String role){
         return "auth/registration";
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("user") @Valid User user, BindingResult bindingResult){
+    public String performRegistration( @ModelAttribute("role") String role, @ModelAttribute("user") @Valid User user, BindingResult bindingResult){
+        if (role.equals("teacher"))
+            user.setRoles(new HashSet<>(List.of(Role.ROLE_TEACHER)));
+        else
+            user.setRoles(new HashSet<>(List.of(Role.ROLE_STUDENT)));
+
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/auth/registration";
