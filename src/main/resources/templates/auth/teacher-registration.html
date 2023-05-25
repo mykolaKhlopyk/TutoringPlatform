@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>New User registration</title>
+    <style>
+
+        .btn-primary {
+            border-radius: 4px;
+            margin-right: 10px;
+            background-color: #1bbc9b;
+        }
+
+        .btn-info {
+            margin-top: 20px;
+            margin-left: 200px;
+        }
+
+        #clear {
+            margin-top: 20px;
+
+        }
+
+        .btn-primary.checked {
+            background-color: #0b4b3e;
+        }
+
+        .btn-primary.active {
+            background-color: #0b4b3e;
+        }
+
+        .btn-primary:focus {
+            background-color: #1bbc9b;
+        }
+
+        .selected {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<div class="col-md-offset-2">
+    <h2>Teacher registration</h2>
+</div>
+<form class="form-horizontal" th:action="@{/auth/registration/teacher}" th:object="${teacher}" method="post">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="email">Experience(years) :</label>
+        <div class="col-sm-8">
+            <input type="number" class="form-control" th:field="*{experience}" id="email"/>
+            <small class="form-text text-muted" th:if="${#fields.hasErrors('experience')}"
+                   th:errors="*{experience}"></small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">Pay per hour:</label>
+        <div class="col-sm-8">
+            <input type="number" class="form-control" th:field="*{payPerHour}" id="name"/>
+            <small class="form-text text-muted" th:if="${#fields.hasErrors('payPerHour')}"
+                   th:errors="*{payPerHour}"></small>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Place:</label>
+        <div class="col-sm-8">
+            <label class="btn btn-primary" for="leftRadio" onclick="changeColor(this)">
+                <input type="radio" name="place" id="leftRadio" value="ONLINE" hidden>online
+            </label>
+            <label class="btn btn-primary" for="middleRadio" onclick="changeColor(this)">
+                <input type="radio" name="place" id="middleRadio" value="OFFLINE" hidden>offline
+            </label>
+            <label class="btn btn-primary" for="rightRadio" onclick="changeColor(this)">
+                <input type="radio" name="place" id="rightRadio" value="BOTH" hidden>both
+            </label>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Subjects:</label>
+
+        <div class="col-sm-8" data-toggle="buttons">
+            <label th:each="subject : ${subjects}" class="btn btn-primary" >
+                <input type="checkbox" name="subjects" th:value="${subject}" hidden>
+                <span th:text="${subject.name()
+                             .substring(0, 1) + subject.name().substring(1).toLowerCase()}"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Grades:</label>
+
+        <div class="col-sm-8" data-toggle="buttons">
+            <label th:each="grade : ${grades}" class="btn btn-primary">
+                <input type="checkbox" name="grades" th:value="${grade}" hidden>
+                <span th:text="${grade.name()
+                             .substring(0, 1) + grade.name().substring(1).toLowerCase().replace('_', ' ')}"></span>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <input style="background-color: #1bbc9b" type="submit" class="btn btn-info" value="Register"/>
+        <input type="reset" class="btn btn" id="clear" value="Clear"/>
+    </div>
+
+</form>
+
+<script>
+    function changeColor(element) {
+        var buttons = document.getElementsByClassName('btn-primary');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('checked');
+        }
+        element.classList.add('checked');
+    }
+
+
+    var checkboxes = document.querySelectorAll('input[name="subjects"]');
+
+    function handleCheckboxChange() {
+        var label = this.parentNode;
+
+        if (this.checked) {
+            label.classList.add('active');
+        } else {
+            label.classList.remove('active');
+        }
+    }
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
+
+    var otherCheckboxes = document.querySelectorAll('input[name="grades"]');
+
+    otherCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
+</script>
+</body>
+
+</html>
