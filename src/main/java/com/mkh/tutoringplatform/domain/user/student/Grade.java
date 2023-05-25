@@ -7,4 +7,5 @@ public enum Grade {
     HIGH_SCHOOL,
     UNIVERSITY,
     ALL
+
 }
