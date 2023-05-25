@@ -1,10 +1,10 @@
 package com.mkh.tutoringplatform.domain.user.user;
 
-
-
-
-
+import com.mkh.tutoringplatform.domain.user.student.Student;
+import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Set;
@@ -53,4 +53,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    private Teacher teacher;
+
+    @OneToOne(mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    private Student student;
 }
