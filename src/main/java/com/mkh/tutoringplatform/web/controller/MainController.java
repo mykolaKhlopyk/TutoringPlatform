@@ -1,5 +1,6 @@
 package com.mkh.tutoringplatform.web.controller;
 
+import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.security.UserDetailsImpl;
 import com.mkh.tutoringplatform.service.impl.UserServiceImpl;
@@ -13,35 +14,27 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/home")
 public class MainController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping("/hello")
-    public String sayHello(){
+    @GetMapping("/")
+    public String redirectToTeacherOrStudentPage(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.out.println(userDetails.getUser().getName());
+        User user = userDetails.getUser();
+        if (user.getRoles().contains(Role.ROLE_STUDENT))
+            return "redirect:/teacher/";
         return "hello";
     }
 
-    @GetMapping("/new-user")
-    public String createUser(@ModelAttribute("user")User user){
-        return "new-user";
-    }
 
-    @PostMapping("/new-user")
-    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return "/new-user";
-        }
-        userService.save(user);
-        return "redirect:/index";
-    }
 
 
     @GetMapping("/index")
