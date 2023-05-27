@@ -1,6 +1,7 @@
 package com.mkh.tutoringplatform.domain.user.teacher;
 
 import com.mkh.tutoringplatform.domain.user.student.Grade;
+import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -60,4 +62,18 @@ public class Teacher {
     @CollectionTable(name = "teachers_subjects", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "subject_id")
     private Set<Subject> subjects;
+
+    @ManyToMany
+    @JoinTable(
+            name = "teachers_students",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
+
+    @ManyToMany
+    @JoinTable(
+            name = "not_confirmed_teachers_students",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> notConfirmedStudents;
 }

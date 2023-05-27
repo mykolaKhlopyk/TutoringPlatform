@@ -1,10 +1,12 @@
 package com.mkh.tutoringplatform.domain.user.student;
 
+import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,4 +25,9 @@ public class Student {
     @Enumerated(EnumType.ORDINAL)
     private Grade grade;
 
+    @ManyToMany(mappedBy = "students")
+    private List<Teacher> teachers;
+
+    @ManyToMany(mappedBy = "notConfirmedStudents")
+    private List<Teacher> requestedTeachers;
 }
