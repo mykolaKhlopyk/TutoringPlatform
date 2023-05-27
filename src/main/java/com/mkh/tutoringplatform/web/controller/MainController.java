@@ -24,22 +24,22 @@ public class MainController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping("/")
+    @GetMapping()
     public String redirectToTeacherOrStudentPage(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
         if (user.getRoles().contains(Role.ROLE_STUDENT))
-            return "redirect:/teacher/";
-        return "hello";
+            return "redirect:/student/";
+        return "redirect:/teacher/";
     }
 
 
 
 
-    @GetMapping("/index")
-    public String showAll(Model model){
-        model.addAttribute("users", userService.getAll());
-        return "index";
-    }
+//    @GetMapping("/index")
+//    public String showAll(Model model){
+//        model.addAttribute("users", userService.getAll());
+//        return "index";
+//    }
 }
