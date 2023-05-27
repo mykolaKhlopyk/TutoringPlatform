@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>E-mail</th>
+                <th>Full name</th>
+                <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="teacher, iStat: ${usersTeachers}">
+                <td th:text="${iStat.index + 1}"/>
+                <td>
+                    <a th:href="@{|/todos/all/users/${teacher.id}|}" th:text="${teacher.username}"/>
+                </td>
+                <td th:text="${teacher.email }"/>
+                <td th:text="${teacher.name + ' ' + teacher.surname}"/>
+                <td>
+                    <a th:href="@{|/users/${teacher.id}/update|}">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+</body>
+</html>
