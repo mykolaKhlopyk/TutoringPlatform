@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -29,7 +29,7 @@
                 <td th:text="${teacher.email }"/>
                 <td th:text="${teacher.name + ' ' + teacher.surname}"/>
                 <td>
-                    <a th:href="@{|/users/${teacher.id}/update|}">Edit</a>
+                    <a th:href="@{|/student/request/${teacher.teacher.id}|}">Request</a>
                 </td>
             </tr>
             </tbody>
