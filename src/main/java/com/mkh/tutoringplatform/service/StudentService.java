@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface StudentService {
 
+    void requestTeacher(long id, Student authenticatedStudent);
 }
