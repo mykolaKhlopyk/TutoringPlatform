@@ -22,6 +22,11 @@ public class TeacherServiceImpl implements TeacherService {
     private final StudentRepository studentRepository;
 
     @Override
+    public Teacher getById(long id) {
+        return teacherRepository.findById(id).get();
+    }
+
+    @Override
     public List<Teacher> getAll() {
         return teacherRepository.findAll();
     }
@@ -35,3 +40,4 @@ public class TeacherServiceImpl implements TeacherService {
         return newForStudentTeachers;
     }
 }
+
