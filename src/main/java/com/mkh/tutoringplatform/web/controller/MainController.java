@@ -31,7 +31,7 @@ public class MainController {
         User user = userDetails.getUser();
         if (user.getRoles().contains(Role.ROLE_STUDENT))
             return "redirect:/student/";
-        return "redirect:/teacher/";
+        return "redirect:/teacher/home";
     }
 
 
