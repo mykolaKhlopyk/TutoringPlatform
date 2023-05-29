@@ -30,4 +30,7 @@ public class Student {
 
     @ManyToMany(mappedBy = "notConfirmedStudents")
     private List<Teacher> requestedTeachers;
+
+    @ManyToMany(mappedBy = "students")
+    private List<Group> groups;
 }
