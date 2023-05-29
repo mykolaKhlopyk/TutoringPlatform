@@ -24,12 +24,21 @@
             <tr th:each="teacher, iStat: ${usersTeachers}">
                 <td th:text="${iStat.index + 1}"/>
                 <td>
-                    <a th:href="@{|/todos/all/users/${teacher.id}|}" th:text="${teacher.username}"/>
+                    <a th:href="@{|/teacher/${teacher.id}|}" th:text="${teacher.username}"/>
                 </td>
                 <td th:text="${teacher.email }"/>
                 <td th:text="${teacher.name + ' ' + teacher.surname}"/>
-                <td>
-                    <a th:href="@{|/student/request/${teacher.teacher.id}|}">Request</a>
+                <td th:if="${!requestedTeachers.contains(teacher)}">
+                    <form th:method="PATCH" th:action="@{|/student/request/${teacher.teacher.id}|}">
+                        <input type="submit" value="Request">
+                    </form>
+
+                    <!--                    <a th:href="@{|/student/request/${teacher.teacher.id}|}">Request</a>-->
+                </td>
+                <td th:if="${requestedTeachers.contains(teacher)}">
+                    <form th:method="PATCH" th:action="@{|/student/cancel/request/${teacher.teacher.id}|}">
+                        <input type="submit" value="Cancel request">
+                    </form>
                 </td>
             </tr>
             </tbody>
