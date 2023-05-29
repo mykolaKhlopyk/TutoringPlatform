@@ -1,6 +1,7 @@
 package com.mkh.tutoringplatform.domain.user.teacher;
 
 import com.mkh.tutoringplatform.domain.user.student.Grade;
+import com.mkh.tutoringplatform.domain.user.student.Group;
 import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
@@ -76,4 +77,7 @@ public class Teacher {
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> notConfirmedStudents;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Group> groups;
 }
