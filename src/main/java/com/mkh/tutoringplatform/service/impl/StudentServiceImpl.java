@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,21 @@ public class StudentServiceImpl implements StudentService {
         authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().add(authenticatedStudent);
         teacherRepository.save(teacher);
+    }
+
+    @Override
+    @Transactional
+    public void cancelRequest(long id, Student authenticatedStudent) {
+        Teacher teacher = teacherRepository.findById(id).get();
+        authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
+        teacher.getNotConfirmedStudents().remove(authenticatedStudent);
+        teacherRepository.save(teacher);
+    }
+
+    @Override
+    public List<Teacher> getAllRequestedByStudent(Student student) {
+        student = studentRepository.findById(student.getId()).get();
+        Hibernate.initialize(student.getRequestedTeachers());
+        return student.getRequestedTeachers();
     }
 }
