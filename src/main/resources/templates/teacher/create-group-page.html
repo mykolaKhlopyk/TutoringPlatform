@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+</head>
+<body>
+<form id="selectedStudentsForm" th:action="@{/teacher/submitStudents}" th:object="${selectedStudents}" method="post">
+
+    <div class="container py-5">
+        <div class="row">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>Full name</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student, iStat: ${confirmedStudents}">
+                    <td th:text="${iStat.index + 1}"/>
+                    <td>
+                        <a th:href="@{|/student/${student.id}|}" th:text="${student.username}"/>
+                    </td>
+                    <td th:text="${student.email }"/>
+                    <td th:text="${student.name + ' ' + student.surname}"/>
+                    <td>
+                        <input type="checkbox" th:name="'selectedStudents[' + ${iStat.index} + '].selected'"
+                               th:value="${student.id}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+<input type="text" id="name" name="name" required
+       minlength="4" maxlength="8" size="10">
+<button type="submit" form="selectedStudentsForm">Submit</button>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+<script th:inline="javascript">
+    function getSelectedStudents() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var selectedStudents = [];
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedStudents.push(checkbox.value);
+            }
+        });
+
+        return selectedStudents;
+    }
+    function getInputName() {
+        var inputElement = document.querySelector('input[name="name"]');
+        if (inputElement) {
+            return inputElement.value;
+        } else {
+            return null;
+        }
+    }
+
+    document.getElementById('selectedStudentsForm').addEventListener('submit', function (event) {
+        var selectedStudents = getSelectedStudents();
+        var hiddenInput1 = document.createElement('input');
+
+        var name = getInputName();
+        var hiddenInput2 = document.createElement('input');
+
+        hiddenInput1.setAttribute('type', 'hidden');
+        hiddenInput1.setAttribute('name', 'selectedStudentIds');
+        hiddenInput1.setAttribute('value', selectedStudents);
+
+
+        hiddenInput2.setAttribute('type', 'hidden');
+        hiddenInput2.setAttribute('name', 'groupName');
+        hiddenInput2.setAttribute('value', name);
+
+
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput1);
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput2);
+    });
+</script>
+</body>
+</html>
