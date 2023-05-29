@@ -55,13 +55,13 @@ public class TeacherController {
         return "redirect:/teacher/requested";
     }
 
-    @GetMapping("/list/students")
+    @GetMapping("/students")
     public String getAllTeachersConfirmedStudentsPage(Model model){
         model.addAttribute("confirmedStudents", teacherService.getAllConfirmedStudent(getAuthenticatedTeacher()).stream().map(Student::getUser).collect(Collectors.toList()));
         return "teacher/confirmed-students-page";
     }
 
-    @GetMapping("/list/submitStudents")
+    @GetMapping("/create/group")
     public String createGroupPage(Model model){
         model.addAttribute("confirmedStudents", teacherService.getAllConfirmedStudent(getAuthenticatedTeacher()).stream().map(Student::getUser).collect(Collectors.toList()));
         return "teacher/create-group-page";
