@@ -39,5 +39,38 @@ public class TeacherServiceImpl implements TeacherService {
         newForStudentTeachers.removeAll(student.getTeachers());
         return newForStudentTeachers;
     }
+
+    @Override
+    public List<Student> getAllNotConfirmedStudent(Teacher teacher) {
+        teacher = teacherRepository.getOne(teacher.getId());
+        return teacher.getNotConfirmedStudents();
+    }
+
+    @Override
+    @Transactional
+    public void disagreeStudentById(long id, Teacher authenticatedTeacher) {
+        Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
+        Student student = studentRepository.getOne(id);
+        teacher.getNotConfirmedStudents().remove(student);
+        teacherRepository.save(teacher);
+    }
+
+
+    @Override
+    @Transactional
+    public void agreeStudentById(long id, Teacher authenticatedTeacher) {
+        Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
+        Student student = studentRepository.getOne(id);
+        teacher.getNotConfirmedStudents().remove(student);
+        teacher.getStudents().add(student);
+        teacherRepository.save(teacher);
+    }
+
+    @Override
+    public List<Student> getAllConfirmedStudent(Teacher authenticatedTeacher) {
+        Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
+        Hibernate.initialize(teacher.getStudents());
+        return teacher.getStudents();
+    }
 }
 
