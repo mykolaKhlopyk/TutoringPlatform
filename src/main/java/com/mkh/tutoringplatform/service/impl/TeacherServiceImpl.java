@@ -32,9 +32,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getAllNewForStudent(Student student) {
+    public List<Teacher> getAllNewTeachersForStudent(Student student) {
         List<Teacher> newForStudentTeachers =  teacherRepository.findAll();
-        student = studentRepository.findById(Long.valueOf(student.getId())).get();
+        student = studentRepository.getOne(student.getId());
         Hibernate.initialize(student.getTeachers());
         newForStudentTeachers.removeAll(student.getTeachers());
         return newForStudentTeachers;
