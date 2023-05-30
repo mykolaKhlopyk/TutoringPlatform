@@ -1,6 +1,8 @@
 package com.mkh.tutoringplatform.service.impl;
 
+import com.mkh.tutoringplatform.domain.exception.AccessDeniedException;
 import com.mkh.tutoringplatform.domain.user.student.Group;
+import com.mkh.tutoringplatform.domain.user.student.Lesson;
 import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
@@ -40,5 +42,16 @@ public class GroupServiceImpl implements GroupService {
         Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
         Hibernate.initialize(teacher.getGroups());
         return teacher.getGroups();
+    }
+
+    @Override
+    public List<Lesson> getLessons(long group_id, Teacher authenticatedTeacher) {
+        Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
+        if (teacher.getGroups().stream().map(Group::getId).anyMatch(id -> id == group_id)){
+            throw new AccessDeniedException();
+        }
+        Group group = groupRepository.getOne(group_id);
+        Hibernate.initialize(group.getLessons());
+        return group.getLessons();
     }
 }
