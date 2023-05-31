@@ -11,4 +11,10 @@ public interface GroupService {
     List<Group> getGroups(Teacher authenticatedTeacher);
 
     List<Lesson> getLessons(long group_id, Teacher authenticatedTeacher);
+
+    void deleteLesson(long lesson_id, long group_id);
+
+    void deleteGroup(long group_id);
+
+    Group getGroup(long group_id);
 }
