@@ -32,7 +32,7 @@ public class Group {
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "lessons")
+    @OneToMany(mappedBy = "group")
     private List<Lesson> lessons;
 
 }
