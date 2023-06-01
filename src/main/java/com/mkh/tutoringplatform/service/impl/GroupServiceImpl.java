@@ -77,6 +77,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    @Transactional
     public void deleteGroup(long group_id) {
         groupRepository.deleteById(group_id);
     }
