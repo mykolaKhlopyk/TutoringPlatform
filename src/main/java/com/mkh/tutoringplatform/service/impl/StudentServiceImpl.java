@@ -43,4 +43,15 @@ public class StudentServiceImpl implements StudentService {
         Hibernate.initialize(student.getRequestedTeachers());
         return student.getRequestedTeachers();
     }
+
+    @Override
+    @Transactional
+    public void deleteTeacher(long student_id, long teacher_id) {
+        Teacher teacher = teacherRepository.getOne(teacher_id);
+        Student student = studentRepository.getOne(student_id);
+        student.getTeachers().remove(teacher);
+        teacher.getStudents().remove(student);
+        studentRepository.save(student);
+        teacherRepository.save(teacher);
+    }
 }
