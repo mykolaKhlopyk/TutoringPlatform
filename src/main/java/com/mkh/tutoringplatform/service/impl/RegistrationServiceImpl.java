@@ -24,7 +24,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final PasswordEncoder passwordEncoder;
     @Override
     public void registerUser(User user) {
-        user.setPassword(passwordEncoder.encode( user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
