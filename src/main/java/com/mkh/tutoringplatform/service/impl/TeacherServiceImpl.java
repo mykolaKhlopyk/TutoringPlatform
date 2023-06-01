@@ -33,7 +33,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> getAllNewTeachersForStudent(Student student) {
-        List<Teacher> newForStudentTeachers =  teacherRepository.findAll();
+        List<Teacher> newForStudentTeachers = teacherRepository.findAll();
         student = studentRepository.getOne(student.getId());
         Hibernate.initialize(student.getTeachers());
         newForStudentTeachers.removeAll(student.getTeachers());
@@ -71,6 +71,13 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherRepository.getOne(authenticatedTeacher.getId());
         Hibernate.initialize(teacher.getStudents());
         return teacher.getStudents();
+    }
+
+    @Override
+    public List<Teacher> getAllTeachersOfStudent(Student student) {
+        student = studentRepository.getOne(student.getId());
+        Hibernate.initialize(student.getTeachers());
+        return student.getTeachers();
     }
 }
 
