@@ -34,8 +34,6 @@ public class Lesson {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "time_start")
     private Date timeStart;
-    @Transient
-    private Date timeFinish;
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
