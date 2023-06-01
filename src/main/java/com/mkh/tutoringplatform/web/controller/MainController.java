@@ -30,16 +30,8 @@ public class MainController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
         if (user.getRoles().contains(Role.ROLE_STUDENT))
-            return "redirect:/student/";
-        return "redirect:/teacher/home";
+            return "redirect:/student/lessons/today";
+        return "redirect:/teacher/lessons/today";
     }
 
-
-
-
-//    @GetMapping("/index")
-//    public String showAll(Model model){
-//        model.addAttribute("users", userService.getAll());
-//        return "index";
-//    }
 }
