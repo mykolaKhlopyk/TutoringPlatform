@@ -18,7 +18,7 @@
                 <th>Username</th>
                 <th>E-mail</th>
                 <th>Full name</th>
-<!--                <th>Operations</th>-->
+                <th>Operations</th>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +29,11 @@
                 </td>
                 <td th:text="${student.email }"/>
                 <td th:text="${student.name + ' ' + student.surname}"/>
+                <td>
+                    <form th:method="DELETE" th:action="@{|/teacher/student/${student.student.id}|}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
 <!--                <td>-->
 <!--                    <form th:method="PATCH" th:action="@{|/teacher/request/agree/${student.student.id}|}"  style="display: inline-block;">-->
 <!--                        <input type="submit" value="Agree">-->
