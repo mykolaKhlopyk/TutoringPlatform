@@ -24,15 +24,15 @@
             <tr th:each="group, iStat: ${groups}">
                 <td th:text="${iStat.index + 1}"/>
                 <td>
-                    <a th:href="@{|/teacher/group/${group.id}|}" th:text="${group.name}"/>
+                    <a th:href="@{|/teacher/group/${group.id}/lessons|}" th:text="${group.name}"/>
                 </td>
                 <td th:text="${group.students.size()}"/>
                 <td>
-                    <form th:method="PATCH" th:action="@{|/teacher/lesson/start/${group.id}|}"  style="display: inline-block;">
-                        <input type="submit" value="Begin lesson">
-                    </form>
-                    <form th:method="PATCH" th:action="@{|/teacher/request/disagree/${group.id}|}"  style="display: inline-block;">
-                        <input type="submit" value="Plan lesson">
+<!--                    <form th:method="PATCH" th:action="@{|/teacher/lesson/start/${group.id}|}"  style="display: inline-block;">-->
+<!--                        <input type="submit" value="Begin lesson">-->
+<!--                    </form>-->
+                    <form th:method="DELETE" th:action="@{|/teacher/group/${group.id}|}"  style="display: inline-block;">
+                        <input type="submit" value="Delete group">
                     </form>
                 </td>
             </tr>
@@ -40,6 +40,8 @@
         </table>
     </div>
 </div>
+
+<a style="margin-left: 120px" class="btn btn-primary" href="/teacher/create/group" role="button">Create group</a>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
