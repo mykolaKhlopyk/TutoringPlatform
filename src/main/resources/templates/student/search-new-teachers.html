@@ -8,6 +8,7 @@
 
 </head>
 <body>
+<div th:replace="student/student-header"></div>
 <div class="container py-5">
     <div class="row">
         <table id="example" class="table table-striped" style="width:100%">
@@ -23,9 +24,7 @@
             <tbody>
             <tr th:each="teacher, iStat: ${usersTeachers}">
                 <td th:text="${iStat.index + 1}"/>
-                <td>
-                    <a th:href="@{|/teacher/${teacher.id}|}" th:text="${teacher.username}"/>
-                </td>
+                <td th:text="${teacher.username}"/>
                 <td th:text="${teacher.email }"/>
                 <td th:text="${teacher.name + ' ' + teacher.surname}"/>
                 <td th:if="${!requestedTeachers.contains(teacher)}">
