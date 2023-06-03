@@ -22,6 +22,8 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/teacher/**").hasRole("TEACHER")
+                .antMatchers("/student/**").hasRole("STUDENT")
                 .antMatchers("/auth/login", "/auth/registration/user","/auth/registration/teacher","/auth/registration/student", "/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
