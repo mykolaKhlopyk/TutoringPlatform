@@ -29,6 +29,5 @@ public class UserValidator implements Validator {
             errors.rejectValue("email","","this email is used");
         if (optionalUserByUsername.isPresent())
             errors.rejectValue("username", "", "this username is used");
-
     }
 }
