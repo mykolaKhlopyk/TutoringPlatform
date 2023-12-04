@@ -17,8 +17,11 @@ import java.util.Optional;
 @AllArgsConstructor
 @Transactional(readOnly = true)
 public class StudentServiceImpl implements StudentService {
+
     private final TeacherRepository teacherRepository;
+
     private final StudentRepository studentRepository;
+
     @Override
     @Transactional
     public void requestTeacher(long id, Student authenticatedStudent) {

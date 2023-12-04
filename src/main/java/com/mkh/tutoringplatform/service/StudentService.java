@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface StudentService {
 
     void requestTeacher(long id, Student authenticatedStudent);
+
     List<Teacher> getAllRequestedByStudent(Student student);
 
     void cancelRequest(long id, Student authenticatedStudent);

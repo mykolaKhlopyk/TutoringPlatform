@@ -25,8 +25,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Transactional(readOnly = true)
 public class GroupServiceImpl implements GroupService {
+
     private final GroupRepository groupRepository;
+
     private final UserRepository userRepository;
+
     private final TeacherRepository teacherRepository;
 
     private final LessonRepository lessonRepository;

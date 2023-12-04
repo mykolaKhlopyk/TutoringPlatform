@@ -18,10 +18,15 @@ import java.util.Date;
 @Service
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
+
     private final UserRepository userRepository;
+
     private final TeacherRepository teacherRepository;
+
     private final StudentRepository studentRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -40,6 +45,4 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void registerStudent(Student student) {
         studentRepository.save(student);
     }
-
-
 }

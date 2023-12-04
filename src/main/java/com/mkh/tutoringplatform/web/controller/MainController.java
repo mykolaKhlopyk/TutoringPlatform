@@ -33,5 +33,4 @@ public class MainController {
             return "redirect:/student/lessons/today";
         return "redirect:/teacher/lessons/today";
     }
-
 }
