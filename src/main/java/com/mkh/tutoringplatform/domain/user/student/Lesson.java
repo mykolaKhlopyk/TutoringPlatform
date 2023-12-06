@@ -1,6 +1,5 @@
 package com.mkh.tutoringplatform.domain.user.student;
 
-import com.mkh.tutoringplatform.domain.user.teacher.Subject;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,13 +15,14 @@ import java.util.Date;
 @Data
 @Table(name = "lessons")
 public class Lesson {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private Subject subject;
+    @Size(min=6, max = 16, message = "Lesson name should be between 6 and 16 characters")
+    private String name;
 
     @NotNull
     //@Size(min = 10, max = 300, message = "durationq is incorrect")

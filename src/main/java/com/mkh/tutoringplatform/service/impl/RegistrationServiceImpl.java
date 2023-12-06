@@ -35,8 +35,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void registerTeacher(Teacher teacher) {
-        teacher.setNumberOfVotes(0);
-        teacher.setSumOfVotes(0);
         teacher.setRegisteredAt(new Date());
         teacherRepository.save(teacher);
     }

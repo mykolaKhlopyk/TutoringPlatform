@@ -21,10 +21,6 @@ public class Student {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @NotNull
-    @Enumerated(EnumType.ORDINAL)
-    private Grade grade;
-
     @ManyToMany(mappedBy = "students")
     private List<Teacher> teachers;
 
@@ -33,4 +29,7 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     private List<Group> groups;
+
+    @ManyToMany(mappedBy = "students")
+    private List<Course> courses;
 }

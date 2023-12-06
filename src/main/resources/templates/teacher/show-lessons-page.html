@@ -26,7 +26,7 @@
             <tbody>
             <tr th:each="lesson, iStat: ${lessons}">
                 <td th:text="${iStat.index + 1}"/>
-                <td th:text="${lesson.subject.name().substring(0, 1)+lesson.subject.name().substring(1).toLowerCase()}"/>
+                <td th:text="${lesson.name}"/>
                 <td th:text="${lesson.timeStart}"/>
                 <td th:text="${lesson.getStringTimeFinish()}"/>
                 <td>

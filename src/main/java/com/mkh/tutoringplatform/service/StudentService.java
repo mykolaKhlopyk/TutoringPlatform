@@ -1,5 +1,6 @@
 package com.mkh.tutoringplatform.service;
 
+import com.mkh.tutoringplatform.domain.user.student.Course;
 import com.mkh.tutoringplatform.domain.user.student.Lesson;
 import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
@@ -16,4 +17,8 @@ public interface StudentService {
     void cancelRequest(long id, Student authenticatedStudent);
 
     void deleteTeacher(long student_id, long teacher_id);
+
+    List<Course> getStudentCourses(long id);
+
+    void joinStudentToCourse(long studentId, long courseId);
 }

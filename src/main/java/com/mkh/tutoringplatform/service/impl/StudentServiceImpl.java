@@ -1,7 +1,9 @@
 package com.mkh.tutoringplatform.service.impl;
 
+import com.mkh.tutoringplatform.domain.user.student.Course;
 import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.repository.CourseRepository;
 import com.mkh.tutoringplatform.repository.StudentRepository;
 import com.mkh.tutoringplatform.repository.TeacherRepository;
 import com.mkh.tutoringplatform.service.StudentService;
@@ -21,6 +23,8 @@ public class StudentServiceImpl implements StudentService {
     private final TeacherRepository teacherRepository;
 
     private final StudentRepository studentRepository;
+
+    private final CourseRepository courseRepository;
 
     @Override
     @Transactional
@@ -56,5 +60,21 @@ public class StudentServiceImpl implements StudentService {
         teacher.getStudents().remove(student);
         studentRepository.save(student);
         teacherRepository.save(teacher);
+    }
+
+    @Override
+    public List<Course> getStudentCourses(long id) {
+        return studentRepository.getOne(id).getCourses();
+    }
+
+    @Override
+    @Transactional
+    public void joinStudentToCourse(long studentId, long courseId) {
+        Student student = studentRepository.getOne(studentId);
+        Course course = courseRepository.getOne(courseId);
+        course.getStudents().add(student);
+        student.getCourses().add(course);
+        studentRepository.save(student);
+        courseRepository.save(course);
     }
 }

@@ -1,14 +1,17 @@
 package com.mkh.tutoringplatform.web.controller.student;
 
+import com.mkh.tutoringplatform.domain.user.student.Course;
 import com.mkh.tutoringplatform.domain.user.student.Lesson;
 import com.mkh.tutoringplatform.domain.user.student.Student;
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.security.UserDetailsImpl;
+import com.mkh.tutoringplatform.service.CourseService;
 import com.mkh.tutoringplatform.service.LessonService;
 import com.mkh.tutoringplatform.service.StudentService;
 import com.mkh.tutoringplatform.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,8 +27,12 @@ import java.util.stream.Collectors;
 public class StudentController {
 
     private final TeacherService teacherService;
+
     private final StudentService studentService;
+
     private final LessonService lessonService;
+
+    private final CourseService courseService;
 
     private Student getAuthenticatedStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,7 +71,7 @@ public class StudentController {
     }
 
     @GetMapping("/teacher/{teacher_id}/lessons")
-    public String getAllLessonsWithTheTeacherPage(@PathVariable("teacher_id")long teacher_id, Model model){
+    public String getAllLessonsWithTheTeacherPage(@PathVariable("teacher_id") long teacher_id, Model model) {
         List<Lesson> lessons = lessonService.getLessonByTeacherId(teacher_id, getAuthenticatedStudent().getId());
         model.addAttribute("lessons", lessons);
         model.addAttribute("teacher", teacherService.getById(teacher_id));
@@ -72,19 +79,40 @@ public class StudentController {
     }
 
     @GetMapping("/lessons/today")
-    public String getAllLessonsTodayPage(Model model){
+    public String getAllLessonsTodayPage(Model model) {
         List<Lesson> lessons = lessonService.getLessonInAboutOneDay(getAuthenticatedStudent());
         model.addAttribute("lessons", lessons);
         return "student/lessons-today-page";
     }
 
-    @DeleteMapping("teacher/{teacher_id}")
-    public String deleteTeacher(@PathVariable("teacher_id") long teacher_id){
+    @DeleteMapping("/teacher/{teacher_id}")
+    public String deleteTeacher(@PathVariable("teacher_id") long teacher_id) {
         studentService.deleteTeacher(getAuthenticatedStudent().getId(), teacher_id);
         return "redirect:student/teachers/my";
     }
 
+    @GetMapping("/courses/all")
+    public String getAllCourses(Model model) {
+        Student student = getAuthenticatedStudent();
+        List<Course> studentCourses = studentService.getStudentCourses(student.getId());
+        List<Course> courses = courseService.getAllCourses().stream()
+                .filter(course -> student.getCourses().stream().map(Course::getId).collect(Collectors.toList()).contains(course.getId()))
+                .collect(Collectors.toList());
+        model.addAttribute("courses", courses);
+        return "student/show-all-courses-page";
+    }
 
+    @GetMapping("/course/{course_id}")
+    public String getCourse(@PathVariable("course_id") long courseId, Model model) {
+        Course course = courseService.getCourseById(courseId);
+        model.addAttribute("course", course);
+        return "course/student-course-page";
+    }
 
+    @PostMapping("/course/{course_id}")
+    public String joinToCourse(@PathVariable("course_id") long courseId) {
+        Student student = getAuthenticatedStudent();
+        studentService.joinStudentToCourse(student.getId(), courseId);
+        return "redirect:student/courses/all";
+    }
 }
-
