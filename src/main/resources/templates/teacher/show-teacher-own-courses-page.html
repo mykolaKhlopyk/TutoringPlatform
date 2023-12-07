@@ -23,7 +23,7 @@
             <tr th:each="course, iStat: ${courses}">
                 <td th:text="${iStat.index + 1}"/>
                 <td>
-                    <a th:href="@{|/teacher/course/show/${course.id}|}" th:text="${course.name}"/>
+                    <a th:href="@{|/teacher/course/${course.id}|}" th:text="${course.name}"/>
                 </td>
                 <td>
                     <form th:method="DELETE" th:action="@{|/teacher/courses/${course.id}|}"

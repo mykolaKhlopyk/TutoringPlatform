@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -133,15 +134,21 @@ public class TeacherController {
 
     @GetMapping("/course/{course_id}")
     public String getCourse(@PathVariable("course_id") long courseId, Model model) {
+        Course course = courseService.getCourseById(courseId);
         model.addAttribute("course", courseService.getCourseById(courseId));
-        return "course/teacher-course-page";
+        model.addAttribute("course_id", course.getId());
+        if (getAuthenticatedTeacher().getId() == course.getId())
+            return "course/teacher-course-page";
+        return "teacher/teacher-course-show-page";
     }
 
-    @GetMapping("/course/show/{course_id}")
-    public String getCourseToShow(@PathVariable("course_id") long courseId, Model model) {
-        model.addAttribute("course", courseService.getCourseById(courseId));
-        return "course/teacher-course-page";
-    }
+//    @GetMapping("/course/show/{course_id}")
+//    public String getCourseToShow(@PathVariable("course_id") long courseId, Model model) {
+//        Course course = courseService.getCourseById(courseId);
+//        model.addAttribute("course", course);
+//        model.addAttribute("course_id", course.getId());
+//        return "course/teacher-course-page";
+//    }
 
     @GetMapping("/courses/my")
     public String getTeacherCourses(Model model) {
@@ -156,9 +163,10 @@ public class TeacherController {
             @RequestParam String literature,
             @RequestParam String task,
             @RequestParam String link,
-            Model model
+            RedirectAttributes redirectAttributes
     ) {
-        model.addAttribute("course", courseService.updateCourse(courseId, literature, task, link));
+        redirectAttributes.addFlashAttribute("messageSaved", true);
+        courseService.updateCourse(courseId, literature, task, link);
         return "redirect:/teacher/course/" + courseId;
     }
 
