@@ -137,7 +137,7 @@ public class TeacherController {
         Course course = courseService.getCourseById(courseId);
         model.addAttribute("course", courseService.getCourseById(courseId));
         model.addAttribute("course_id", course.getId());
-        if (getAuthenticatedTeacher().getId() == course.getId())
+        if (getAuthenticatedTeacher().getId() == course.getTeacher().getId())
             return "course/teacher-course-page";
         return "teacher/teacher-course-show-page";
     }

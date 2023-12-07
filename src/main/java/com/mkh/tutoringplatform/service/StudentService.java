@@ -21,4 +21,6 @@ public interface StudentService {
     List<Course> getStudentCourses(long id);
 
     void joinStudentToCourse(long studentId, long courseId);
+
+    void leaveCourse(long id, long courseId);
 }

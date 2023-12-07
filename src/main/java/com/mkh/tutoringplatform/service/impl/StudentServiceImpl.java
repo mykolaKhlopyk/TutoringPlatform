@@ -77,4 +77,16 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(student);
         courseRepository.save(course);
     }
+
+    @Override
+    @Transactional
+    public void leaveCourse(long id, long courseId) {
+        Student student = studentRepository.getOne(id);
+        Course course = courseRepository.getOne(courseId);
+        student.getCourses().remove(course);
+        course.getStudents().remove(student);
+        studentRepository.save(student);
+        courseRepository.save(course);
+    }
+
 }

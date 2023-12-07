@@ -88,7 +88,7 @@ public class StudentController {
     @DeleteMapping("/teacher/{teacher_id}")
     public String deleteTeacher(@PathVariable("teacher_id") long teacher_id) {
         studentService.deleteTeacher(getAuthenticatedStudent().getId(), teacher_id);
-        return "redirect:student/teachers/my";
+        return "redirect:/student/teachers/my";
     }
 
     @GetMapping("/courses/all")
@@ -96,7 +96,7 @@ public class StudentController {
         Student student = getAuthenticatedStudent();
         List<Course> studentCourses = studentService.getStudentCourses(student.getId());
         List<Course> courses = courseService.getAllCourses().stream()
-                .filter(course -> student.getCourses().stream().map(Course::getId).collect(Collectors.toList()).contains(course.getId()))
+                .filter(course -> !(studentCourses.stream().map(Course::getId).collect(Collectors.toList()).contains(course.getId())))
                 .collect(Collectors.toList());
         model.addAttribute("courses", courses);
         return "student/show-all-courses-page";
@@ -109,10 +109,24 @@ public class StudentController {
         return "course/student-course-page";
     }
 
-    @PostMapping("/course/{course_id}")
+    @PatchMapping("/course/{course_id}")
     public String joinToCourse(@PathVariable("course_id") long courseId) {
         Student student = getAuthenticatedStudent();
         studentService.joinStudentToCourse(student.getId(), courseId);
-        return "redirect:student/courses/all";
+        return "redirect:/student/courses/all";
+    }
+
+    @GetMapping("/courses/my")
+    public String getMyCourses(Model model) {
+        Student student = getAuthenticatedStudent();
+        List<Course> courses = studentService.getStudentCourses(student.getId());
+        model.addAttribute("courses", courses);
+        return "student/show-all-mycourses";
+    }
+
+    @DeleteMapping("/course/{course_id}")
+    public String leaveCourse(@PathVariable("course_id") long course_id) {
+        studentService.leaveCourse(getAuthenticatedStudent().getId(), course_id);
+        return "redirect:student/teachers/my";
     }
 }

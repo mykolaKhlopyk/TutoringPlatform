@@ -64,13 +64,13 @@
   <form>
 
     <label for="literature">Literature:</label>
-    <textarea id="literature" name="literature" rows="5" th:value="${course.literature}" readonly required></textarea>
+    <textarea id="literature" name="literature" rows="5" th:text="${course.literature}" readonly required></textarea>
 
     <label for="task">Tasks:</label>
     <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly required></textarea>
 
     <label for="link">Links:</label>
-    <textarea id="link" name="link" rows="5" th:value="${course.links}" readonly required></textarea>
+    <textarea id="link" name="link" rows="5" th:text="${course.links}" readonly required></textarea>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 

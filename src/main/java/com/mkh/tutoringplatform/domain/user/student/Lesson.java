@@ -21,11 +21,11 @@ public class Lesson {
     private long id;
 
     @NotNull
-    @Size(min=6, max = 16, message = "Lesson name should be between 6 and 16 characters")
+    @Size(min=4, max = 16, message = "Lesson name should be between 6 and 16 characters")
     private String name;
 
     @NotNull
-    //@Size(min = 10, max = 300, message = "durationq is incorrect")
+    @Size(min = 1, max = 300, message = "duration is incorrect")
     @Column(name = "duration_minutes")
     private int duration;
 
