@@ -3,53 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       margin: 20px;
+      background-color: #f8f9fa;
     }
 
     h1 {
       color: #333;
+      text-align: center;
+      margin-bottom: 30px;
     }
 
     .course-info {
       border: 1px solid #ddd;
       padding: 20px;
       margin: 20px 0;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     label {
+      font-weight: bold;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
 
-    input, textarea {
+    textarea {
       width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
+      padding: 10px;
+      margin-bottom: 20px;
       box-sizing: border-box;
+      resize: vertical;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     button {
-      background-color: #4CAF50;
+      background-color: #28a745;
       color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #45a049;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-      resize: vertical;
+      background-color: #218838;
     }
   </style>
   <title>Course Information</title>
@@ -58,24 +63,30 @@
 
 <div th:replace="student/student-header"></div>
 
-<h1>Course Information</h1>
+<div class="container">
+  <h1>Course Information</h1>
 
-<div class="course-info">
-  <form>
+  <div class="course-info">
+    <form>
+      <div class="mb-3">
+        <label for="literature" class="form-label">Literature:</label>
+        <textarea id="literature" name="literature" rows="5" th:value="${course.literature}" readonly required class="form-control"></textarea>
+      </div>
 
-    <label for="literature">Literature:</label>
-    <textarea id="literature" name="literature" rows="5" th:value="${course.literature}" readonly required></textarea>
+      <div class="mb-3">
+        <label for="task" class="form-label">Tasks:</label>
+        <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly required class="form-control"></textarea>
+      </div>
 
-    <label for="task">Tasks:</label>
-    <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly required></textarea>
+      <div class="mb-3">
+        <label for="link" class="form-label">Links:</label>
+        <textarea id="link" name="link" rows="5" th:value="${course.links}" readonly required class="form-control"></textarea>
+      </div>
 
-    <label for="link">Links:</label>
-    <textarea id="link" name="link" rows="5" th:value="${course.links}" readonly required></textarea>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
-<!--    <button type="submit">Save</button>-->
-  </form>
+      <!-- Uncomment the button if needed -->
+      <!-- <button type="submit" class="btn btn-success">Save</button> -->
+    </form>
+  </div>
 </div>
 
 </body>

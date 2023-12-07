@@ -6,12 +6,90 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #1bbc9b;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #1bbc9b;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        form {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .btn-primary {
+            background-color: #1bbc9b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 120px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b4b3e;
+        }
+    </style>
 </head>
 <body>
+
 <div th:replace="student/student-header"></div>
+
 <div class="container py-5">
     <div class="row">
-        <table id="example" class="table table-striped" style="width:100%">
+        <h2>Available Courses</h2>
+
+        <table id="example" class="table table-striped">
             <thead>
             <tr>
                 <th>No.</th>
@@ -22,13 +100,13 @@
             </thead>
             <tbody>
             <tr th:each="course, iStat: ${courses}">
-                <td th:text="${iStat.index + 1}"/>
+                <td th:text="${iStat.index + 1}"></td>
                 <td>
-                    <a th:href="@{|/student/course/${course.id}|}" th:text="${group.name}"/>
+                    <a th:href="@{|/student/course/${course.id}|}" th:text="${group.name}"></a>
                 </td>
-                <td th:text="${course.teacher.user.name}"/>
+                <td th:text="${course.teacher.user.name}"></td>
                 <td>
-                    <form th:method="PATCH" th:action="@{|/student/course/${course.id}|}"  style="display: inline-block;">
+                    <form th:method="PATCH" th:action="@{|/student/course/${course.id}|}" style="display: inline-block;">
                         <input type="submit" value="Join course">
                     </form>
                 </td>
@@ -36,9 +114,9 @@
             </tbody>
         </table>
     </div>
-</div>
 
-<a style="margin-left: 120px" class="btn btn-primary" href="/teacher/create/group" role="button">Create group</a>
+    <a class="btn btn-primary" href="/teacher/create/group" role="button">Create group</a>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
