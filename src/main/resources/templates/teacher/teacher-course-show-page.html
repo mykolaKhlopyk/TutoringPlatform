@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,12 +15,15 @@
 
     h1 {
       color: #333;
+      margin-bottom: 20px;
     }
 
     .course-info {
       border: 1px solid #ddd;
       padding: 20px;
-      margin: 20px 0;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
     }
 
     label {
@@ -24,11 +31,12 @@
       margin-bottom: 5px;
     }
 
-    input, textarea {
+    textarea {
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
       box-sizing: border-box;
+      resize: vertical;
     }
 
     button {
@@ -43,40 +51,41 @@
     button:hover {
       background-color: #45a049;
     }
-
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-      resize: vertical;
-    }
   </style>
-  <title>Course Information</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
 </head>
+
 <body>
 
 <div th:replace="teacher/teacher-header"></div>
 
-<h1>Course Information</h1>
+<div class="container">
+  <h1>Course Information</h1>
 
-<div class="course-info">
-  <form>
+  <div class="course-info">
+    <form>
 
-    <label for="literature">Literature:</label>
-    <textarea id="literature" name="literature" rows="5" th:value="${course.literature}" readonly required></textarea>
+      <div class="mb-3">
+        <label for="literature" class="form-label">Literature:</label>
+        <textarea id="literature" name="literature" rows="5" th:value="${course.literature}" readonly
+                  required class="form-control"></textarea>
+      </div>
 
-    <label for="task">Tasks:</label>
-    <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly required></textarea>
+      <div class="mb-3">
+        <label for="task" class="form-label">Tasks:</label>
+        <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly
+                  required class="form-control"></textarea>
+      </div>
 
-    <label for="link">Links:</label>
-    <textarea id="link" name="link" rows="5" th:value="${course.links}" readonly required></textarea>
+      <div class="mb-3">
+        <label for="link" class="form-label">Links:</label>
+        <textarea id="link" name="link" rows="5" th:value="${course.links}" readonly
+                  required class="form-control"></textarea>
+      </div>
 
-  </form>
+    </form>
+  </div>
 </div>
 
 </body>
+
 </html>

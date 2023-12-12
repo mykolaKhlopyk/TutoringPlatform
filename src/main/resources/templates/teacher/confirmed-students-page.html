@@ -1,17 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Confirmed Students</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
 
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
 <div th:replace="teacher/teacher-header"></div>
-<div class="container py-5">
-    <div class="row">
-        <table id="example" class="table table-striped" style="width:100%">
+<div class="container">
+    <h1>Confirmed Students</h1>
+    <div class="table-responsive">
+        <table id="example" class="table table-striped">
             <thead>
             <tr>
                 <th>No.</th>
@@ -23,25 +71,17 @@
             </thead>
             <tbody>
             <tr th:each="student, iStat: ${confirmedStudents}">
-                <td th:text="${iStat.index + 1}"/>
+                <td th:text="${iStat.index + 1}" />
                 <td>
-                    <a th:href="@{|/student/${student.id}|}" th:text="${student.username}"/>
+                    <a th:href="@{|/student/${student.id}|}" th:text="${student.username}" />
                 </td>
-                <td th:text="${student.email }"/>
-                <td th:text="${student.name + ' ' + student.surname}"/>
+                <td th:text="${student.email }" />
+                <td th:text="${student.name + ' ' + student.surname}" />
                 <td>
                     <form th:method="DELETE" th:action="@{|/teacher/student/${student.student.id}|}">
-                        <input type="submit" value="Delete">
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
-<!--                <td>-->
-<!--                    <form th:method="PATCH" th:action="@{|/teacher/request/agree/${student.student.id}|}"  style="display: inline-block;">-->
-<!--                        <input type="submit" value="Agree">-->
-<!--                    </form>-->
-<!--                    <form th:method="PATCH" th:action="@{|/teacher/request/disagree/${student.student.id}|}"  style="display: inline-block;">-->
-<!--                        <input type="submit" value="Disagree">-->
-<!--                    </form>-->
-<!--                </td>-->
             </tr>
             </tbody>
         </table>
@@ -57,4 +97,5 @@
     });
 </script>
 </body>
+
 </html>
