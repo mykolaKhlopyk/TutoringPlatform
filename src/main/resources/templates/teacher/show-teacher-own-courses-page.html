@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Groups</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
 </head>
+
 <body>
 <div th:replace="teacher/teacher-header"></div>
 <div class="container py-5">
     <div class="row">
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>Operations</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="course, iStat: ${courses}">
-                <td th:text="${iStat.index + 1}"/>
-                <td>
-                    <a th:href="@{|/teacher/course/${course.id}|}" th:text="${course.name}"/>
-                </td>
-                <td>
-                    <form th:method="DELETE" th:action="@{|/teacher/courses/${course.id}|}"
-                          style="display: inline-block;">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col-12">
+            <h2>Course List</h2>
 
-        <form class="form-horizontal" th:action="@{|/teacher/course/create|}" method="post">
-            <label>Course name:</label>
-            <input type="text" name="name"/><br>
-            <input type="submit" value="Create course"/>
-        </form>
+            <table id="example" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="course, iStat: ${courses}">
+                    <td th:text="${iStat.index + 1}"></td>
+                    <td>
+                        <a th:href="@{|/teacher/course/${course.id}|}" th:text="${course.name}"></a>
+                    </td>
+                    <td>
+                        <form th:method="DELETE" th:action="@{|/teacher/courses/${course.id}|}" style="display: inline-block;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
+            <form class="form-horizontal mt-4" th:action="@{|/teacher/course/create|}" method="post">
+                <div class="mb-3">
+                    <label for="courseName" class="form-label">Course name:</label>
+                    <input type="text" class="form-control" id="courseName" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Course</button>
+            </form>
+        </div>
     </div>
 </div>
-
-<!--<a style="margin-left: 120px" class="btn btn-primary" href="/teacher/create/group" role="button">Create group</a>-->
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -55,4 +58,5 @@
     });
 </script>
 </body>
+
 </html>

@@ -1,39 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Lessons</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 20px;
+    }
 
+    .container {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    h2 {
+      color: #1bbc9b;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #1bbc9b;
+      color: #fff;
+    }
+
+    tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
 </head>
 <body>
+
 <div th:replace="student/student-header"></div>
+
 <div class="container py-5">
   <div class="row">
-    <h2 style="margin-bottom: 30px">Today's lessons for you</h2>
+    <div class="col-12">
+      <h2>Today's lessons for you</h2>
 
-    <table id="example" class="table table-striped" style="width:100%">
-      <thead>
-      <tr>
-        <th>No.</th>
-        <th>Subject</th>
-        <th>Teacher</th>
-        <th>Start time</th>
-        <th>Finish time</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="lesson, iStat: ${lessons}">
-        <td th:text="${iStat.index + 1}"/>
-        <td th:text="${lesson.subject.name().substring(0, 1)+lesson.subject.name().substring(1).toLowerCase()}"/>
-        <td th:text="${lesson.group.teacher.user.name + ' '+ lesson.group.teacher.user.surname}"/>
-        <td th:text="${lesson.timeStart}"/>
-        <td th:text="${lesson.getStringTimeFinish()}"/>
-      </tr>
-      </tbody>
-    </table>
+      <table id="example" class="table table-striped">
+        <thead>
+        <tr>
+          <th>No.</th>
+          <th>Subject</th>
+          <th>Teacher</th>
+          <th>Start time</th>
+          <th>Finish time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lesson, iStat: ${lessons}">
+          <td th:text="${iStat.index + 1}"></td>
+          <td th:text="${#strings.capitalize(lesson.subject.name().toLowerCase())}"></td>
+          <td th:text="${lesson.group.teacher.user.name + ' ' + lesson.group.teacher.user.surname}"></td>
+          <td th:text="${lesson.timeStart}"></td>
+          <td th:text="${lesson.getStringTimeFinish()}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+  });
+</script>
+
 </body>
 </html>

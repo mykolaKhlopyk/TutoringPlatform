@@ -2,107 +2,141 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">-->
-
+    <title>Create Lesson</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">-->
-
 
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .form-horizontal {
+            margin-top: 20px;
+        }
 
         .btn-primary {
             border-radius: 4px;
             margin-right: 10px;
             background-color: #1bbc9b;
+            color: #fff;
+            border: 1px solid #1bbc9b;
         }
 
-        .btn-info {
-            margin-top: 20px;
-            margin-left: 200px;
-        }
-
+        .btn-info,
         #clear {
+            display: block;
+            margin: 0 auto;
             margin-top: 20px;
-
-        }
-
-        .btn-primary.checked {
-            background-color: #0b4b3e;
-        }
-
-        .btn-primary.active {
-            background-color: #0b4b3e;
-        }
-
-        .btn-primary:focus {
+            width: 100%;
             background-color: #1bbc9b;
+            border-color: #1bbc9b;
+            color: #fff;
+        }
+
+        .btn-info:hover,
+        #clear:hover {
+            background-color: #0b4b3e;
+            border-color: #0b4b3e;
+        }
+
+        .btn-primary.checked,
+        .btn-primary.active,
+        .btn-primary:focus {
+            background-color: #0b4b3e;
+            border: 1px solid #0b4b3e;
         }
 
         .selected {
             background-color: yellow;
         }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"],
+        input[type="datetime-local"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .form-text {
+            color: #dc3545;
+        }
     </style>
-    <title>Create Lesson</title>
 </head>
 <body>
-<!--<div th:replace="teacher/teacher-header"></div>-->
-
-<div class="col-md-offset-2">
+<div class="container">
     <h2>Creation lesson</h2>
-</div>
-<form class="form-horizontal" th:action="@{|/teacher/create/${group_id}/lesson/|}" th:object="${lesson}" method="post">
+    <form class="form-horizontal" th:action="@{|/teacher/create/${group_id}/lesson/|}" th:object="${lesson}" method="post">
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Grades:</label>
-
-        <div class="col-sm-8" data-toggle="buttons">
-            <label th:each="subject : ${subjects}" class="btn btn-primary" onclick="changeColor(this)">
-                <input type="radio" name="subject" th:value="${subject}" hidden>
-                <span th:text="${subject.name()
-                             .substring(0, 1) + subject.name().substring(1).toLowerCase()}"></span>
-            </label>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Grades:</label>
+            <div class="col-sm-8" data-toggle="buttons">
+                <label th:each="subject : ${subjects}" class="btn btn-primary" onclick="changeColor(this)">
+                    <input type="radio" name="subject" th:value="${subject}" hidden>
+                    <span th:text="${subject.name().substring(0, 1) + subject.name().substring(1).toLowerCase()}"></span>
+                </label>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="duration" class="col-sm-2 control-label">Duration(in minutes):</label>
-        <div class="col-sm-8">
-
-            <input type="number" id="duration" name="duration" th:field="*{duration}">
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('duration')}"
-                   th:errors="*{duration}"></small>
+        <div class="form-group">
+            <label for="duration" class="col-sm-2 control-label">Duration (in minutes):</label>
+            <div class="col-sm-8">
+                <input type="number" id="duration" name="duration" th:field="*{duration}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></small>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="timeStart" class="col-sm-2 control-label">Start Time:</label>
-        <div class="col-sm-8">
-
-            <input type="datetime-local" id="timeStart" name="timeStart" th:field="*{timeStart}">
+        <div class="form-group">
+            <label for="timeStart" class="col-sm-2 control-label">Start Time:</label>
+            <div class="col-sm-8">
+                <input type="datetime-local" id="timeStart" name="timeStart" th:field="*{timeStart}">
+            </div>
         </div>
-    </div>
 
-
-    <div class="form-group">
-        <input style="background-color: #1bbc9b" type="submit" class="btn btn-info" value="Create"/>
-        <input type="reset" class="btn btn" id="clear" value="Clear"/>
-    </div>
-</form>
-<script>
-    function changeColor(element) {
-        var buttons = document.getElementsByClassName('btn-primary');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove('checked');
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Create"/>
+            <input type="reset" class="btn btn" id="clear" value="Clear"/>
+        </div>
+    </form>
+    <script>
+        function changeColor(element) {
+            var buttons = document.getElementsByClassName('btn-primary');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('checked');
+            }
+            element.classList.add('checked');
         }
-        element.classList.add('checked');
-    }
-</script>
+    </script>
+</div>
 </body>
 </html>
-
-
-
-
-
-

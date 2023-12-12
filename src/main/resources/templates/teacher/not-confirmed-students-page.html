@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
+    <!-- Optional: Add your custom styles here -->
+    <style>
+        .operations-form {
+            display: inline-block;
+            margin-right: 5px;
+        }
+    </style>
 </head>
+
 <body>
 <div th:replace="teacher/teacher-header"></div>
 <div class="container py-5">
     <div class="row">
-        <table id="example" class="table table-striped" style="width:100%">
+        <table id="example" class="table table-striped">
             <thead>
             <tr>
                 <th>No.</th>
@@ -23,18 +32,20 @@
             </thead>
             <tbody>
             <tr th:each="student, iStat: ${notConfirmedStudents}">
-                <td th:text="${iStat.index + 1}"/>
+                <td th:text="${iStat.index + 1}"></td>
                 <td>
-                    <a th:href="@{|/student/${student.id}|}" th:text="${student.username}"/>
+                    <a th:href="@{|/student/${student.id}|}" th:text="${student.username}"></a>
                 </td>
-                <td th:text="${student.email }"/>
-                <td th:text="${student.name + ' ' + student.surname}"/>
+                <td th:text="${student.email }"></td>
+                <td th:text="${student.name + ' ' + student.surname}"></td>
                 <td>
-                    <form th:method="PATCH" th:action="@{|/teacher/request/agree/${student.student.id}|}"  style="display: inline-block;">
-                        <input type="submit" value="Agree">
+                    <form class="operations-form" th:method="PATCH"
+                          th:action="@{|/teacher/request/agree/${student.student.id}|}">
+                        <input type="submit" class="btn btn-success" value="Agree">
                     </form>
-                    <form th:method="PATCH" th:action="@{|/teacher/request/disagree/${student.student.id}|}"  style="display: inline-block;">
-                        <input type="submit" value="Disagree">
+                    <form class="operations-form" th:method="PATCH"
+                          th:action="@{|/teacher/request/disagree/${student.student.id}|}">
+                        <input type="submit" class="btn btn-danger" value="Disagree">
                     </form>
                 </td>
             </tr>
@@ -52,4 +63,5 @@
     });
 </script>
 </body>
+
 </html>

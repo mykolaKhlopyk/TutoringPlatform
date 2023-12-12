@@ -3,119 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <title>New User registration</title>
+    <title>New User Registration</title>
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1bbc9b;
+        }
+
+        .form-horizontal {
+            max-width: 440px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-horizontal label {
+            display: inline-block;
+            margin-bottom: 5px;
+            margin-left: 0px;
+        }
+
+        .form-horizontal .form-control {
+            width: 100%;
+        }
+
         .btn-primary {
             background-color: #1bbc9b;
         }
 
-        .btn-info {
-            margin-top: 20px;
-            margin-left: 200px;
-        }
-
-        #clear{
-            margin-top: 20px;
-
-        }
         .btn-primary.checked {
             background-color: #0b4b3e;
         }
 
-        .btn-primary:focus {
-            background-color: #1bbc9b;
+        .btn-info,
+        .btn-danger {
+            width: 40%; /* Adjust the width as needed */
+            display: inline-block;
+            margin-right: 5%;
+            margin-left: 5%;
         }
 
+        .control-label {
+            margin-left: 0px;
+        }
+
+        #clear {
+            background-color: #d9534f;
+            color: #fff;
+            float: left;
+        }
     </style>
 </head>
 <body>
 
-<div class="col-md-offset-2">
+<div class="container">
     <h2>Registration</h2>
+    <form class="form-horizontal" th:action="@{/auth/registration/user}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="email">Email:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{email}" id="email"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('email')}"
+                       th:errors="*{email}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="username">username:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{username}" id="username"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('username')}"
+                       th:errors="*{username}"></small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">name:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{name}" id="name"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}"
+                       th:errors="*{name}"></small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="surname">surname:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{surname}" id="surname"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('surname')}"
+                       th:errors="*{surname}"></small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="phone">phone:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{phone}" id="phone"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('phone')}"
+                       th:errors="*{phone}"></small>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="sex">sex:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="sex" id="sex">
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">password:</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control" th:field="*{password}" id="password"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}"
+                       th:errors="*{password}"></small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Role:</label>
+            <div class="col-sm-8">
+                <label class="btn btn-primary" for="leftRadio" onclick="changeColor(this)">
+                    <input type="radio" name="role" id="leftRadio" value="teacher" hidden>teacher
+                </label>
+                <label class="btn btn-primary" for="middleRadio" onclick="changeColor(this)">
+                    <input type="radio" name="role" id="middleRadio" value="student" hidden>student
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+<!--            <div class="col-sm-6">-->
+                <input type="submit" class="btn btn-info" value="Register"/>
+                <input type="reset" class="btn btn-danger" id="clear" value="Clear"/>
+<!--            </div>-->
+        </div>
+    </form>
 </div>
-<form class="form-horizontal" th:action="@{/auth/registration/user}" th:object="${user}" method="post">
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="email">Email:</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" th:field="*{email}" id="email"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('email')}"
-                   th:errors="*{email}"></small>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="username">username:</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" th:field="*{username}" id="username"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('username')}"
-                   th:errors="*{username}"></small>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="name">name:</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" th:field="*{name}" id="name"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}"
-                   th:errors="*{name}"></small>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="surname">surname:</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" th:field="*{surname}" id="surname"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('surname')}"
-                   th:errors="*{surname}"></small>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="phone">phone:</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" th:field="*{phone}" id="phone"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('phone')}"
-                   th:errors="*{phone}"></small>
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="sex">sex:</label>
-        <div class="col-sm-6">
-            <select class="form-control" name="sex" id="sex">
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="password">password:</label>
-        <div class="col-sm-8">
-            <input type="password" class="form-control" th:field="*{password}" id="password"/>
-            <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}"
-                   th:errors="*{password}"></small>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Role:</label>
-        <div class="col-sm-8">
-            <label class="btn btn-primary" for="leftRadio" onclick="changeColor(this)">
-                <input type="radio" name="role" id="leftRadio" value="teacher" hidden>teacher
-            </label>
-            <label class="btn btn-primary" for="middleRadio" onclick="changeColor(this)">
-                <input type="radio" name="role" id="middleRadio" value="student" hidden>student
-            </label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <input style="background-color: #1bbc9b" type="submit" class="btn btn-info" value="Register"/>
-        <input type="reset" class="btn btn" id="clear" value="Clear"/>
-    </div>
-
-</form>
 
 <script>
     function changeColor(element) {

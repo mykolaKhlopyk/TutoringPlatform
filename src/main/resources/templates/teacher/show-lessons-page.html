@@ -1,47 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Lessons</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
 </head>
+
 <body>
 <div th:replace="teacher/teacher-header"></div>
 <div class="container py-5">
     <div class="row">
-        <h2 style="margin-bottom: 30px" th:text="${'Group ' + group.name}"></h2>
+        <div class="col-12">
+            <h2 class="mb-4" th:text="${'Group ' + group.name}"></h2>
 
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>Subject</th>
-                <th>Start time</th>
-                <th>Finish time</th>
-                <th>Operation</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="lesson, iStat: ${lessons}">
-                <td th:text="${iStat.index + 1}"/>
-                <td th:text="${lesson.name}"/>
-                <td th:text="${lesson.timeStart}"/>
-                <td th:text="${lesson.getStringTimeFinish()}"/>
-                <td>
-                    <form th:method="DELETE" th:action="@{|/teacher/group/${group_id}/lesson/delete/${lesson.id}|}"
-                          style="display: inline-block;">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+            <table id="example" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Subject</th>
+                    <th>Start time</th>
+                    <th>Finish time</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lesson, iStat: ${lessons}">
+                    <td th:text="${iStat.index + 1}"></td>
+                    <td th:text="${lesson.name}"></td>
+                    <td th:text="${lesson.timeStart}"></td>
+                    <td th:text="${lesson.getStringTimeFinish()}"></td>
+                    <td>
+                        <form th:method="DELETE"
+                              th:action="@{|/teacher/group/${group_id}/lesson/delete/${lesson.id}|}" style="display: inline-block;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form class="form-horizontal" th:action="@{|/teacher/create/${group_id}/lesson/|}" method="get">
+                <button type="submit" class="btn btn-primary mb-2">Create Lesson</button>
+            </form>
+        </div>
     </div>
 </div>
-<form class="form-horizontal" style="margin-left: 130px" th:action="@{|/teacher/create/${group_id}/lesson/|}" method="get">
-    <button type="submit" class="btn btn-primary mb-2">Create Lesson</button>
-</form>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
 </body>
+
 </html>
