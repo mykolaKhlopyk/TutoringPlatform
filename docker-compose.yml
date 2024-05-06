@@ -1,23 +1,22 @@
 version: "3.8"
 
 services:
-  tutorapp:
-    build: .
-    depends_on:
-      postgres:
-        condition: service_healthy
-    container_name: "tutoring"
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=compose-postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#  tutorapp:
+#    build: .
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#    container_name: "tutoring"
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/compose-postgres
+#      - SPRING_DATASOURCE_USERNAME=compose-postgres
+#      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   postgres:
     image: postgres
-
     ports:
       - 5432:5432
     environment:
@@ -28,4 +27,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-

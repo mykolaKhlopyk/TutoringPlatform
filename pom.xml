@@ -15,7 +15,7 @@
     <description>TutoringPlatform</description>
     <properties>
         <java.version>11</java.version>
-        <lombok.version>1.18.26</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <postgresql.version>42.6.0</postgresql.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jakarta-validation.version>3.0.2</jakarta-validation.version>
