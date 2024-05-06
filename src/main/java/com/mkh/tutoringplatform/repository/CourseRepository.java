@@ -1,11 +1,20 @@
 package com.mkh.tutoringplatform.repository;
 
 import com.mkh.tutoringplatform.domain.user.student.Course;
-import org.springframework.data.domain.Example;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CourseRepository extends JpaRepository<Course, Long> {
+import java.util.List;
+
+public interface CourseRepository {
+
     boolean existsCourseByName(String name);
+
+    List<Course> findAll();
+
+    Course findById(long id);
+
+    Course save(Course course);
+
+    Course getOne(long courseId);
+
+    void deleteById(long courseId);
 }

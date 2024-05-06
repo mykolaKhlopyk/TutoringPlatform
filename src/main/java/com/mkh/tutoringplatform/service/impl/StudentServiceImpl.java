@@ -29,7 +29,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void requestTeacher(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id).get();
+        Teacher teacher = teacherRepository.findById(id);
         authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().add(authenticatedStudent);
         teacherRepository.save(teacher);
@@ -38,7 +38,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void cancelRequest(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id).get();
+        Teacher teacher = teacherRepository.findById(id);
         authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().remove(authenticatedStudent);
         teacherRepository.save(teacher);
@@ -88,5 +88,4 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(student);
         courseRepository.save(course);
     }
-
 }

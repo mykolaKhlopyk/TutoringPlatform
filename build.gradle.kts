@@ -23,12 +23,16 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.data:spring-data-jpa:3.2.5")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.5")
+//    implementation("org.springframework.data:spring-data-jpa:3.2.5")
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.5")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-security:3.2.5")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.2.5")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.5")
 
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
