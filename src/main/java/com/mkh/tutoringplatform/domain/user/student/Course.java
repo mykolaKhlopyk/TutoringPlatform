@@ -1,10 +1,10 @@
 package com.mkh.tutoringplatform.domain.user.student;
 
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -29,12 +29,12 @@ public class Course {
     )
     private List<Student> students;
 
-    @ManyToOne
+    @ManyToOne 
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "group")
-    private List<Lesson> lessons;
+//    @OneToMany(mappedBy = "group")
+//    private List<Lesson> lessons;
 
     private String literature;
 

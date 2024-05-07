@@ -10,9 +10,6 @@ import com.mkh.tutoringplatform.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.imageio.spi.RegisterableService;
 import java.util.Date;
 
 @Service
@@ -30,6 +27,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
         userRepository.save(user);
     }
 
