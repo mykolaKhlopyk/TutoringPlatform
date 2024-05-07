@@ -29,12 +29,9 @@ public class Course {
     )
     private List<Student> students;
 
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
-
-//    @OneToMany(mappedBy = "group")
-//    private List<Lesson> lessons;
 
     private String literature;
 
