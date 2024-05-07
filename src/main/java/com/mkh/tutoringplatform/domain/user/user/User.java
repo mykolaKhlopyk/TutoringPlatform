@@ -5,10 +5,9 @@ import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Set;
-
 
 @Data
 @Entity

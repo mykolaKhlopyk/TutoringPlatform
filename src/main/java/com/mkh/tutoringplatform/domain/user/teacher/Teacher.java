@@ -7,12 +7,9 @@ import com.mkh.tutoringplatform.domain.user.user.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
-import javax.validation.constraints.Min;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
 
 @Data
 @Entity
@@ -57,4 +54,5 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
+
 }

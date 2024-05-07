@@ -2,10 +2,9 @@ package com.mkh.tutoringplatform.domain.user.student;
 
 import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Data

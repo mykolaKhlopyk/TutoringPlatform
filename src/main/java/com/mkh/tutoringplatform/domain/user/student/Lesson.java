@@ -3,7 +3,7 @@ package com.mkh.tutoringplatform.domain.user.student;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
