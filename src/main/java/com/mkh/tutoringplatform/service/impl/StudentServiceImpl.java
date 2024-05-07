@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void requestTeacher(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id);
+        Teacher teacher = teacherRepository.findById(id).get();
         authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().add(authenticatedStudent);
         teacherRepository.save(teacher);
@@ -38,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void cancelRequest(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id);
+        Teacher teacher = teacherRepository.findById(id).get();
         authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().remove(authenticatedStudent);
         teacherRepository.save(teacher);

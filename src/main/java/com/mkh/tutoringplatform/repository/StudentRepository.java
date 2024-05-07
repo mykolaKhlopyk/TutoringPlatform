@@ -7,12 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface StudentRepository {
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    Student getOne(long studentId);
-
-    Optional<Student> findById(long id);
-
-    void save(Student student);
 }

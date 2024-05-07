@@ -24,7 +24,7 @@ public class UserDetailsImpl implements UserDetails {
         return user.getRoles().stream()
                 .map(Enum::name)
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

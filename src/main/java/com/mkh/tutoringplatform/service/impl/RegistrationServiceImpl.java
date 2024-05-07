@@ -8,7 +8,6 @@ import com.mkh.tutoringplatform.repository.TeacherRepository;
 import com.mkh.tutoringplatform.repository.UserRepository;
 import com.mkh.tutoringplatform.service.RegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -23,11 +22,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final StudentRepository studentRepository;
 
-   // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void registerUser(User user) {
-   //     user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
         userRepository.save(user);
     }
