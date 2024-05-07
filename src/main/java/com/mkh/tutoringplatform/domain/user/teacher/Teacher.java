@@ -30,11 +30,6 @@ public class Teacher {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date registeredAt;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "teachers_subjects", joinColumns = @JoinColumn(name = "teacher_id"))
-//    @Column(name = "subject_id")
-//    private Set<Subject> subjects;
-
     @ManyToMany
     @JoinTable(
             name = "teachers_students",
