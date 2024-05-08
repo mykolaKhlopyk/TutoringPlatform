@@ -34,4 +34,9 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private List<Lesson> lessons;
+
+    @Override
+    public String toString() {
+        return "Group";
+    }
 }

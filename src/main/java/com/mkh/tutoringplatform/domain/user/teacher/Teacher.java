@@ -50,4 +50,8 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
 
+    @Override
+    public String toString() {
+        return "Teacher";
+    }
 }

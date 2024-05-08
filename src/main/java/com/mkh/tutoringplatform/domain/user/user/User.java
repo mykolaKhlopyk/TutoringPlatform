@@ -60,4 +60,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Student student;
+
+    @Override
+    public String toString() {
+        return "User";
+    }
 }

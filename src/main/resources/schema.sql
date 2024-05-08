@@ -1,6 +1,6 @@
 drop table if exists users_roles;
-drop table if exists student_groups;
-drop table if exists student_courses;
+drop table if exists students_groups;
+drop table if exists students_courses;
 drop table if exists course_groups;
 drop table if exists teachers_students;
 drop table if exists not_confirmed_teachers_students;
@@ -96,7 +96,7 @@ create table course_groups
     foreign key (group_id) references groups (id)
 );
 
-create table student_courses
+create table students_courses
 (
     student_id bigint,
     course_id  bigint,
@@ -105,7 +105,7 @@ create table student_courses
     foreign key (course_id) references courses (id)
 );
 
-create table student_groups
+create table students_groups
 (
     student_id bigint,
     group_id   bigint,

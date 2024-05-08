@@ -38,4 +38,9 @@ public class Course {
     private String tasks;
 
     private String links;
+
+    @Override
+    public String toString() {
+        return "Course";
+    }
 }
