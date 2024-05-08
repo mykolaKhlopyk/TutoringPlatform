@@ -50,4 +50,9 @@ public class Lesson {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(getTimeFinish());
     }
+
+    @Override
+    public String toString() {
+        return "Lesson";
+    }
 }

@@ -31,4 +31,9 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     private List<Course> courses;
+
+    @Override
+    public String toString() {
+        return "Student";
+    }
 }
