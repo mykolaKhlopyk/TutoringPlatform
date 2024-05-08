@@ -17,39 +17,29 @@
             margin: auto;
         }
 
-        .form-signin .form-signin-heading,
+        .form-signin,
         .form-signin .checkbox {
             margin-bottom: 10px;
         }
 
-        .form-signin .checkbox {
-            font-weight: normal;
+        .form-signin-heading {
+            margin-bottom: 20px;
         }
 
         .form-signin .form-control {
             position: relative;
             height: auto;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
             padding: 10px;
             font-size: 16px;
+            margin-bottom: 20px; /* Increased spacing */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* subtle shadow for depth */
+            transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out; /* smooth transition for focus effect */
         }
 
         .form-signin .form-control:focus {
             z-index: 2;
-        }
-
-        .form-signin input[type="text"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2), 0 0 8px rgba(0, 123, 255, 0.6); /* Focus effect */
+            border-color: #80bdff; /* Highlight border on focus */
         }
 
         .form-signin button {
@@ -60,6 +50,7 @@
             padding: 10px 20px;
             font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.2s ease-in-out; /* Animation for button */
         }
 
         .form-signin button:hover {
