@@ -10,4 +10,8 @@ public interface StudentRepository {
     Optional<Student> findById(long id);
 
     void save(Student student);
+
+    void joinStudentToCourse(long studentId, long courseId);
+
+    void leaveStudentFromCourse(long studentId, long courseId);
 }

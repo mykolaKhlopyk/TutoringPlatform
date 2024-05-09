@@ -10,6 +10,7 @@ public class LessonMapper {
                 .id(sqlLesson.getId())
                 .name(sqlLesson.getName())
                 .duration(sqlLesson.getDuration())
+                .groupId(sqlLesson.getSqlGroup().getId())
                 .timeStart(sqlLesson.getTimeStart())
                 .build();
     }

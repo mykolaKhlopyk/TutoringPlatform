@@ -37,7 +37,7 @@ public class TeacherController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
-        return (Teacher) user.getUserInitiator();
+        return  teacherService.findById(user.getUserInitiatorId());
     }
 
     @GetMapping("/requested")
@@ -75,22 +75,23 @@ public class TeacherController {
 
     @PostMapping("/create/group")
     public String submitStudents(
-            @RequestParam("selectedStudentIds") List<Long> usersIds, @RequestParam("groupName") String name
+            @RequestParam("selectedStudentIds") List<Long> studentsIds, @RequestParam("groupName") String name
     ) {
-        groupService.createGroup(usersIds, name, getAuthenticatedTeacher());
+        groupService.createGroup(studentsIds, name, getAuthenticatedTeacher());
         return "redirect:/teacher/students";
     }
 
     @GetMapping("/groups")
     public String showGroups(Model model) {
-        model.addAttribute("groups", groupService.getGroups(getAuthenticatedTeacher()));
+        var groups = groupService.getGroups(getAuthenticatedTeacher());
+        model.addAttribute("groups", groups);
         return "teacher/show-groups-page";
     }
 
     @GetMapping("/group/{group_id}/lessons")
-    public String getTheGroupLessonsPage(@PathVariable("group_id") long group_id, Model model) {
-        model.addAttribute("lessons", groupService.getLessons(group_id, getAuthenticatedTeacher()));
-        model.addAttribute("group", groupService.getGroup(group_id));
+    public String getTheGroupLessonsPage(@PathVariable("group_id") long groupId, Model model) {
+        model.addAttribute("lessons", groupService.getLessons(groupId, getAuthenticatedTeacher()));
+        model.addAttribute("group", groupService.getGroup(groupId));
         return "teacher/show-lessons-page";
     }
 
@@ -114,14 +115,15 @@ public class TeacherController {
     }
 
     @PostMapping("/create/{group_id}/lesson/")
-    public String createLesson(@ModelAttribute("lesson") Lesson lesson, @PathVariable("group_id") long group_id) {
-        lessonService.save(lesson, group_id);
-        return "redirect:/teacher/group/" + group_id + "/lessons";
+    public String createLesson(@ModelAttribute("lesson") Lesson lesson, @PathVariable("group_id") long groupId) {
+        lesson.setGroupId(groupId);
+        lessonService.save(lesson);
+        return "redirect:/teacher/group/" + groupId + "/lessons";
     }
 
     @GetMapping("/lessons/today")
     public String getAllLessonsTodayPage(Model model) {
-        List<Lesson> lessons = lessonService.getLessonInAboutOneDay(getAuthenticatedTeacher());
+        List<Lesson> lessons = lessonService.getTodayLessonForTeacher(getAuthenticatedTeacher());
         model.addAttribute("lessons", lessons);
         return "teacher/lessons-today-page";
     }
@@ -178,9 +180,10 @@ public class TeacherController {
             return "teacher/show-teacher-own-courses-page";
         }
         Teacher teacher = getAuthenticatedTeacher();
-        Course course = new Course();
+        Course course = Course.builder().build();
         course.setName(name);
-        courseService.saveCourse(teacher.getId(), course);
+        course.setTeacherId(teacher.getId());
+        courseService.saveCourse(course);
         return "redirect:/teacher/courses/my";
     }
 

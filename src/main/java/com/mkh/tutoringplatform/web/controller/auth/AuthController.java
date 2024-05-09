@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration/user")
+
     public String performRegistration(@ModelAttribute("role") String role, @ModelAttribute("user") @Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -44,13 +46,16 @@ public class AuthController {
         registrationService.registerUser(user);
         if (role.equals("teacher")) {
             user.setRoles(new HashSet<>(List.of(Role.ROLE_TEACHER)));
-            Teacher teacher = new Teacher();
-            teacher.setUser(user);
+            Teacher teacher = Teacher.builder()
+                    .user(user)
+                    .registeredAt(new Date())
+                    .build();
             registrationService.registerTeacher(teacher);
         } else {
             user.setRoles(new HashSet<>(List.of(Role.ROLE_STUDENT)));
-            Student student = new Student();
-            student.setUser(user);
+            Student student = Student.builder()
+                    .user(user)
+                    .build();
             registrationService.registerStudent(student);
         }
         return "redirect:/auth/login";

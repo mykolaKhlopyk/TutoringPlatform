@@ -12,11 +12,13 @@ public interface CourseService {
 
     Course updateCourse(long courseId, String literature, String task, String link);
 
-    List<Course> getTeacherCourses(long id);
+    List<Course> getTeacherCourses(long teacherId);
+
+    List<Course> getStudentCourses(long studentId);
 
     boolean isCourseWithNameExist(String name);
 
-    void saveCourse(long id, Course course);
+    void saveCourse(Course course);
 
     void deleteCourse(long courseId);
 }

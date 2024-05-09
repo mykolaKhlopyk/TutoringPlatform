@@ -17,4 +17,10 @@ public interface CourseRepository {
     void save(Course course);
 
     void deleteById(long id);
+
+    Course updateCourse(long id, String literature, String task, String link);
+
+    List<Course> getTeacherCourses(long teacherId);
+
+    List<Course> getStudentCourses(long studentId);
 }

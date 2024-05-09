@@ -8,17 +8,9 @@ import java.util.List;
 
 public interface StudentService {
 
-    void requestTeacher(long id, Student authenticatedStudent);
-
-    List<Teacher> getAllRequestedByStudent(Student student);
-
-    void cancelRequest(long id, Student authenticatedStudent);
-
-    void deleteTeacher(long student_id, long teacher_id);
-
-    List<Course> getStudentCourses(long id);
+    Student findById(long studentId);
 
     void joinStudentToCourse(long studentId, long courseId);
 
-    void leaveCourse(long id, long courseId);
+    void leaveStudentFromCourse(long studentId, long courseId);
 }

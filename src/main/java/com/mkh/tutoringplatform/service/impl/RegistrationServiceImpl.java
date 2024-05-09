@@ -3,6 +3,9 @@ package com.mkh.tutoringplatform.service.impl;
 import com.mkh.tutoringplatform.domain.user.Student;
 import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
+import com.mkh.tutoringplatform.repository.StudentRepository;
+import com.mkh.tutoringplatform.repository.TeacherRepository;
+import com.mkh.tutoringplatform.repository.UserRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaUserRepository;
@@ -16,11 +19,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private final JpaUserRepository jpaUserRepository;
+    private final UserRepository userRepository;
 
-    private final JpaTeacherRepository jpaTeacherRepository;
+    private final TeacherRepository teacherRepository;
 
-    private final JpaStudentRepository jpaStudentRepository;
+    private final StudentRepository studentRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -28,17 +31,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
-        jpaUserRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void registerTeacher(Teacher teacher) {
         teacher.setRegisteredAt(new Date());
-        jpaTeacherRepository.save(teacher);
+        teacherRepository.save(teacher);
     }
 
     @Override
     public void registerStudent(Student student) {
-        jpaStudentRepository.save(student);
+        studentRepository.save(student);
     }
 }

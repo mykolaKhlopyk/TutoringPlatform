@@ -26,7 +26,7 @@ public class SqlCourse {
     @Size(min = 3, max = 16, message = "Course name should be between 3 and 16 characters")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "students_courses",
             joinColumns = @JoinColumn(name = "course_id"),

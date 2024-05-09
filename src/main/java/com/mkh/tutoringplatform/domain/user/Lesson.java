@@ -31,6 +31,8 @@ public class Lesson {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date timeStart;
 
+    private long groupId;
+
     public Date getTimeFinish() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(getTimeStart());

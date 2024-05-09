@@ -26,14 +26,14 @@ public class SqlGroup {
     @Size(min=6, max = 16, message = "Group should be between 6 and 16 characters")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "students_groups",
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<SqlStudent> students;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private SqlTeacher teacher;
 

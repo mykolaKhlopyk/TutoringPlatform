@@ -3,6 +3,7 @@ package com.mkh.tutoringplatform.service.impl;
 import com.mkh.tutoringplatform.domain.exception.ResourceNotFoundException;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
+import com.mkh.tutoringplatform.repository.UserRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaUserRepository;
 import com.mkh.tutoringplatform.service.UserService;
 import lombok.AllArgsConstructor;
@@ -18,34 +19,34 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final JpaUserRepository jpaUserRepository;
+    private final UserRepository userRepository;
 
-    public List<User> getAll(){
-        return jpaUserRepository.findAll();
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
-    public User getById(long id){
-        return jpaUserRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    public User getById(long id) {
+        return userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Transactional
-    public void save(User user){
+    public void save(User user) {
         if (user.getRoles() == null || user.getRoles().isEmpty())
             user.setRoles(new HashSet<>(List.of(Role.ROLE_STUDENT)));
-        jpaUserRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional
-    public void update(long id, User updatedUser){
+    public void update(long id, User updatedUser) {
         updatedUser.setId(id);
-        jpaUserRepository.save(updatedUser);
+        userRepository.save(updatedUser);
     }
 
     public Optional<User> getByEmail(String email) {
-        return jpaUserRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public Optional<User> getByUsername(String username) {
-        return jpaUserRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 }
