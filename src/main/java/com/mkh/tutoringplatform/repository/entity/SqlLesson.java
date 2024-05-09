@@ -1,6 +1,5 @@
 package com.mkh.tutoringplatform.repository.entity;
 
-import com.mkh.tutoringplatform.repository.entity.SqlGroup;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +40,7 @@ public class SqlLesson {
     @Column(name = "time_start")
     private Date timeStart;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private SqlGroup sqlGroup;
 

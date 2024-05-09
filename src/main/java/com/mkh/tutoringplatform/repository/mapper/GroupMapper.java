@@ -11,6 +11,7 @@ public class GroupMapper {
         return Group.builder()
                 .id(sqlGroup.getId())
                 .name(sqlGroup.getName())
+                .teacherId(sqlGroup.getTeacher().getId())
                 .studentsIds(sqlGroup.getStudents().stream().map(SqlStudent::getId).toList())
                 .lessonsIds(sqlGroup.getSqlLessons().stream().map(SqlLesson::getId).toList())
                 .build();

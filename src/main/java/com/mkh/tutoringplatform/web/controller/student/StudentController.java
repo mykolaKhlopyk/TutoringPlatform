@@ -71,7 +71,7 @@ public class StudentController {
 
     @GetMapping("/teacher/{teacher_id}/lessons")
     public String getAllLessonsWithTheTeacherPage(@PathVariable("teacher_id") long teacher_id, Model model) {
-        List<Lesson> lessons = lessonService.getLessonByTeacherId(teacher_id, getAuthenticatedStudent().getId());
+        List<Lesson> lessons = lessonService.getLessonsByTeacherId(teacher_id, getAuthenticatedStudent().getId());
         model.addAttribute("lessons", lessons);
         model.addAttribute("teacher", teacherService.getById(teacher_id));
         return "student/lessons-of-teacher-page";
@@ -79,7 +79,7 @@ public class StudentController {
 
     @GetMapping("/lessons/today")
     public String getAllLessonsTodayPage(Model model) {
-        List<Lesson> lessons = lessonService.getLessonInAboutOneDay(getAuthenticatedStudent());
+        List<Lesson> lessons = lessonService.getTodayLessonForStudent(getAuthenticatedStudent());
         model.addAttribute("lessons", lessons);
         return "student/lessons-today-page";
     }
@@ -125,7 +125,7 @@ public class StudentController {
 
     @DeleteMapping("/course/{course_id}")
     public String leaveCourse(@PathVariable("course_id") long course_id) {
-        studentService.leaveCourse(getAuthenticatedStudent().getId(), course_id);
+        studentService.leaveStudentFromCourse(getAuthenticatedStudent().getId(), course_id);
         return "redirect:student/teachers/my";
     }
 }

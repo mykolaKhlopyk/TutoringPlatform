@@ -17,6 +17,8 @@ public class Group {
     @Size(min=6, max = 16, message = "Group should be between 6 and 16 characters")
     private String name;
 
+    private Long teacherId;
+
     private List<Long> studentsIds;
 
     private List<Long> lessonsIds;

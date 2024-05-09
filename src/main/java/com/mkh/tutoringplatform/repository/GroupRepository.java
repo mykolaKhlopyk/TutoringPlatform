@@ -1,8 +1,8 @@
 package com.mkh.tutoringplatform.repository;
 
 import com.mkh.tutoringplatform.domain.user.Group;
-import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GroupRepository {
@@ -12,4 +12,6 @@ public interface GroupRepository {
     Optional<Group> findById(long id);
 
     void deleteById(long id);
+
+    List<Group> getGroups(List<Long> groupsIds);
 }
