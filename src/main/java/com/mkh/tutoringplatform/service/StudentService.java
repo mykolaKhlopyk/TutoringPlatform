@@ -1,12 +1,10 @@
 package com.mkh.tutoringplatform.service;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.student.Lesson;
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
 

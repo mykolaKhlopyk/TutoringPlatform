@@ -1,9 +1,11 @@
-package com.mkh.tutoringplatform.domain.user.student;
+package com.mkh.tutoringplatform.repository.entity;
 
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -11,7 +13,10 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "courses")
-public class Course {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class SqlCourse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +32,11 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private List<Student> students;
+    private List<SqlStudent> students;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Teacher teacher;
+    private SqlTeacher teacher;
 
     private String literature;
 

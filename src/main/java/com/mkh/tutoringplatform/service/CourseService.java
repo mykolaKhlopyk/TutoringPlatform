@@ -1,6 +1,6 @@
 package com.mkh.tutoringplatform.service;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
+import com.mkh.tutoringplatform.domain.user.Course;
 
 import java.util.List;
 

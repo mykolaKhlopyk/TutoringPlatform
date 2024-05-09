@@ -1,5 +1,7 @@
 package com.mkh.tutoringplatform.security;
 
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import lombok.AllArgsConstructor;

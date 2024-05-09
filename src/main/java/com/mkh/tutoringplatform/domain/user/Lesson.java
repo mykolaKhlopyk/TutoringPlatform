@@ -1,5 +1,6 @@
-package com.mkh.tutoringplatform.domain.user.student;
+package com.mkh.tutoringplatform.domain.user;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,13 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
 @Data
-@Table(name = "lessons")
+@Builder
 public class Lesson {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
@@ -26,18 +24,12 @@ public class Lesson {
 
     @NotNull
     @Size(min = 1, max = 300, message = "duration is incorrect")
-    @Column(name = "duration_minutes")
     private int duration;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "time_start")
     private Date timeStart;
-
-    @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
-    private Group group;
 
     public Date getTimeFinish() {
         Calendar calendar = Calendar.getInstance();

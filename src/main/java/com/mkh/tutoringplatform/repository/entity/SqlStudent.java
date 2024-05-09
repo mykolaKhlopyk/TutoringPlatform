@@ -1,16 +1,20 @@
-package com.mkh.tutoringplatform.domain.user.student;
-
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
-import com.mkh.tutoringplatform.domain.user.user.User;
-import lombok.Data;
+package com.mkh.tutoringplatform.repository.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "students")
-public class Student {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class SqlStudent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,19 +22,19 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private SqlUser user;
 
     @ManyToMany(mappedBy = "students")
-    private List<Teacher> teachers;
+    private List<SqlTeacher> teachers;
 
     @ManyToMany(mappedBy = "notConfirmedStudents")
-    private List<Teacher> requestedTeachers;
+    private List<SqlTeacher> requestedTeachers;
 
     @ManyToMany(mappedBy = "students")
-    private List<Group> groups;
+    private List<SqlGroup> groups;
 
     @ManyToMany(mappedBy = "students")
-    private List<Course> courses;
+    private List<SqlCourse> courses;
 
     @Override
     public String toString() {

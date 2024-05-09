@@ -1,11 +1,11 @@
 package com.mkh.tutoringplatform.service.impl;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
-import com.mkh.tutoringplatform.repository.CourseRepository;
-import com.mkh.tutoringplatform.repository.StudentRepository;
-import com.mkh.tutoringplatform.repository.TeacherRepository;
+import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
+import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
 import com.mkh.tutoringplatform.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
@@ -19,33 +19,33 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class StudentServiceImpl implements StudentService {
 
-    private final TeacherRepository teacherRepository;
+    private final JpaTeacherRepository jpaTeacherRepository;
 
-    private final StudentRepository studentRepository;
+    private final JpaStudentRepository jpaStudentRepository;
 
-    private final CourseRepository courseRepository;
+    private final JpaCourseRepository jpaCourseRepository;
 
     @Override
     @Transactional
     public void requestTeacher(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id).get();
-        authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
+        Teacher teacher = jpaTeacherRepository.findById(id).get();
+        authenticatedStudent = jpaStudentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().add(authenticatedStudent);
-        teacherRepository.save(teacher);
+        jpaTeacherRepository.save(teacher);
     }
 
     @Override
     @Transactional
     public void cancelRequest(long id, Student authenticatedStudent) {
-        Teacher teacher = teacherRepository.findById(id).get();
-        authenticatedStudent = studentRepository.findById(authenticatedStudent.getId()).get();
+        Teacher teacher = jpaTeacherRepository.findById(id).get();
+        authenticatedStudent = jpaStudentRepository.findById(authenticatedStudent.getId()).get();
         teacher.getNotConfirmedStudents().remove(authenticatedStudent);
-        teacherRepository.save(teacher);
+        jpaTeacherRepository.save(teacher);
     }
 
     @Override
     public List<Teacher> getAllRequestedByStudent(Student student) {
-        student = studentRepository.findById(student.getId()).get();
+        student = jpaStudentRepository.findById(student.getId()).get();
         Hibernate.initialize(student.getRequestedTeachers());
         return student.getRequestedTeachers();
     }
@@ -53,38 +53,38 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void deleteTeacher(long student_id, long teacher_id) {
-        Teacher teacher = teacherRepository.getOne(teacher_id);
-        Student student = studentRepository.getOne(student_id);
+        Teacher teacher = jpaTeacherRepository.getOne(teacher_id);
+        Student student = jpaStudentRepository.getOne(student_id);
         student.getTeachers().remove(teacher);
         teacher.getStudents().remove(student);
-        studentRepository.save(student);
-        teacherRepository.save(teacher);
+        jpaStudentRepository.save(student);
+        jpaTeacherRepository.save(teacher);
     }
 
     @Override
     public List<Course> getStudentCourses(long id) {
-        return studentRepository.getOne(id).getCourses();
+        return jpaStudentRepository.getOne(id).getCourses();
     }
 
     @Override
     @Transactional
     public void joinStudentToCourse(long studentId, long courseId) {
-        Student student = studentRepository.getOne(studentId);
-        Course course = courseRepository.getOne(courseId);
+        Student student = jpaStudentRepository.getOne(studentId);
+        Course course = jpaCourseRepository.getOne(courseId);
         course.getStudents().add(student);
         student.getCourses().add(course);
-        studentRepository.save(student);
-        courseRepository.save(course);
+        jpaStudentRepository.save(student);
+        jpaCourseRepository.save(course);
     }
 
     @Override
     @Transactional
     public void leaveCourse(long id, long courseId) {
-        Student student = studentRepository.getOne(id);
-        Course course = courseRepository.getOne(courseId);
+        Student student = jpaStudentRepository.getOne(id);
+        Course course = jpaCourseRepository.getOne(courseId);
         student.getCourses().remove(course);
         course.getStudents().remove(student);
-        studentRepository.save(student);
-        courseRepository.save(course);
+        jpaStudentRepository.save(student);
+        jpaCourseRepository.save(course);
     }
 }
