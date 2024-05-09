@@ -1,21 +1,15 @@
 package com.mkh.tutoringplatform.domain.user.user;
 
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
-import jakarta.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "users")
+@Builder
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
@@ -44,25 +38,21 @@ public class User {
     @Size(min = 2, max = 30, message = "Phone number should be between 2 and 30 characters")
     private String phone;
 
-    @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Set<Role> roles; //for authorization
 
-    @OneToOne(mappedBy = "user")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private Teacher teacher;
+    private Long userInitiatorId;
 
-    @OneToOne(mappedBy = "user")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private Student student;
+    private UserRole userRole; //for identification
 
     @Override
     public String toString() {
         return "User";
+    }
+
+    public enum UserRole {
+        STUDENT,
+        TEACHER
     }
 }

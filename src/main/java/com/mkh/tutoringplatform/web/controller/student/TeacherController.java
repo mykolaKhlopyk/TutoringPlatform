@@ -1,9 +1,9 @@
 package com.mkh.tutoringplatform.web.controller.student;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.student.Lesson;
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.Lesson;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.security.UserDetailsImpl;
 import com.mkh.tutoringplatform.service.*;
@@ -37,7 +37,7 @@ public class TeacherController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
-        return user.getTeacher();
+        return (Teacher) user.getUserInitiator();
     }
 
     @GetMapping("/requested")

@@ -1,9 +1,9 @@
 package com.mkh.tutoringplatform.service.impl;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
-import com.mkh.tutoringplatform.repository.CourseRepository;
-import com.mkh.tutoringplatform.repository.TeacherRepository;
+import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.Teacher;
+import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
 import com.mkh.tutoringplatform.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
@@ -16,53 +16,53 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseRepository courseRepository;
+    private final JpaCourseRepository jpaCourseRepository;
 
-    private final TeacherRepository teacherRepository;
+    private final JpaTeacherRepository jpaTeacherRepository;
 
     @Override
     public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        return jpaCourseRepository.findAll();
     }
 
     @Override
     public Course getCourseById(long id) {
-        return courseRepository.findById(id).get();
+        return jpaCourseRepository.findById(id).get();
     }
 
     @Override
     public Course updateCourse(long courseId, String literature, String task, String link) {
-        Course course = courseRepository.getOne(courseId);
+        Course course = jpaCourseRepository.getOne(courseId);
         course.setLiterature(literature);
         course.setTasks(task);
         course.setLinks(link);
-        return courseRepository.save(course);
+        return jpaCourseRepository.save(course);
     }
 
     @Override
     public List<Course> getTeacherCourses(long id) {
-        Teacher teacher = teacherRepository.getOne(id);
+        Teacher teacher = jpaTeacherRepository.getOne(id);
         Hibernate.initialize(teacher.getCourses());
         return teacher.getCourses();
     }
 
     @Override
     public boolean isCourseWithNameExist(String name) {
-        return courseRepository.existsCourseByName(name);
+        return jpaCourseRepository.existsCourseByName(name);
     }
 
     @Override
     @Transactional
     public void saveCourse(long id, Course course) {
-        Teacher teacher = teacherRepository.getOne(id);
+        Teacher teacher = jpaTeacherRepository.getOne(id);
         course.setTeacher(teacher);
         teacher.getCourses().add(course);
-        teacherRepository.save(teacher);
-        courseRepository.save(course);
+        jpaTeacherRepository.save(teacher);
+        jpaCourseRepository.save(course);
     }
 
     @Override
     public void deleteCourse(long courseId) {
-        courseRepository.deleteById(courseId);
+        jpaCourseRepository.deleteById(courseId);
     }
 }

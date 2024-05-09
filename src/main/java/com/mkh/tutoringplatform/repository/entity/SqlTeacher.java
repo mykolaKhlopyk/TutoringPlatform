@@ -1,20 +1,23 @@
-package com.mkh.tutoringplatform.domain.user.teacher;
+package com.mkh.tutoringplatform.repository.entity;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.student.Group;
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.user.User;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "teachers")
-public class Teacher {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class SqlTeacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +25,7 @@ public class Teacher {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private SqlUser user;
 
     @NotNull
     @Column(name = "registered_at")
@@ -35,20 +38,20 @@ public class Teacher {
             name = "teachers_students",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<Student> students;
+    private List<SqlStudent> students;
 
     @ManyToMany
     @JoinTable(
             name = "not_confirmed_teachers_students",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<Student> notConfirmedStudents;
+    private List<SqlStudent> notConfirmedStudents;
 
     @OneToMany(mappedBy = "teacher")
-    private List<Group> groups;
+    private List<SqlGroup> sqlGroups;
 
     @OneToMany(mappedBy = "teacher")
-    private List<Course> courses;
+    private List<SqlCourse> courses;
 
     @Override
     public String toString() {

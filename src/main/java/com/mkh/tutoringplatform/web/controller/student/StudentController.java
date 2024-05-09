@@ -1,9 +1,9 @@
 package com.mkh.tutoringplatform.web.controller.student;
 
-import com.mkh.tutoringplatform.domain.user.student.Course;
-import com.mkh.tutoringplatform.domain.user.student.Lesson;
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.Lesson;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.security.UserDetailsImpl;
 import com.mkh.tutoringplatform.service.CourseService;
@@ -11,7 +11,6 @@ import com.mkh.tutoringplatform.service.LessonService;
 import com.mkh.tutoringplatform.service.StudentService;
 import com.mkh.tutoringplatform.service.TeacherService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class StudentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
-        return user.getStudent();
+        return (Student) user.getUserInitiator();
     }
 
     @GetMapping("/teachers/all")

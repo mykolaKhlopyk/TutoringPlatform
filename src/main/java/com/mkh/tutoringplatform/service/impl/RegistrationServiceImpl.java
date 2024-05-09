@@ -1,11 +1,11 @@
 package com.mkh.tutoringplatform.service.impl;
 
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
-import com.mkh.tutoringplatform.repository.StudentRepository;
-import com.mkh.tutoringplatform.repository.TeacherRepository;
-import com.mkh.tutoringplatform.repository.UserRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaUserRepository;
 import com.mkh.tutoringplatform.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,11 +16,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private final UserRepository userRepository;
+    private final JpaUserRepository jpaUserRepository;
 
-    private final TeacherRepository teacherRepository;
+    private final JpaTeacherRepository jpaTeacherRepository;
 
-    private final StudentRepository studentRepository;
+    private final JpaStudentRepository jpaStudentRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -28,17 +28,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
-        userRepository.save(user);
+        jpaUserRepository.save(user);
     }
 
     @Override
     public void registerTeacher(Teacher teacher) {
         teacher.setRegisteredAt(new Date());
-        teacherRepository.save(teacher);
+        jpaTeacherRepository.save(teacher);
     }
 
     @Override
     public void registerStudent(Student student) {
-        studentRepository.save(student);
+        jpaStudentRepository.save(student);
     }
 }

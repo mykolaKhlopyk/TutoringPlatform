@@ -1,8 +1,8 @@
 package com.mkh.tutoringplatform.service;
 
-import com.mkh.tutoringplatform.domain.user.student.Group;
-import com.mkh.tutoringplatform.domain.user.student.Lesson;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Group;
+import com.mkh.tutoringplatform.domain.user.Lesson;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 
 import java.util.List;
 

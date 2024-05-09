@@ -1,7 +1,7 @@
 package com.mkh.tutoringplatform.web.controller.auth;
 
-import com.mkh.tutoringplatform.domain.user.student.Student;
-import com.mkh.tutoringplatform.domain.user.teacher.Teacher;
+import com.mkh.tutoringplatform.domain.user.Student;
+import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.service.RegistrationService;
