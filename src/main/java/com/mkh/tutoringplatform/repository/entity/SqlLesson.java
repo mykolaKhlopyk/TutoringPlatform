@@ -1,6 +1,5 @@
 package com.mkh.tutoringplatform.repository.entity;
 
-import com.mkh.tutoringplatform.repository.entity.SqlGroup;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

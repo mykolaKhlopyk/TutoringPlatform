@@ -1,16 +1,10 @@
 package com.mkh.tutoringplatform.service.impl;
 
 import com.mkh.tutoringplatform.domain.user.Course;
-import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.repository.CourseRepository;
-import com.mkh.tutoringplatform.repository.TeacherRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
 import com.mkh.tutoringplatform.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -6,13 +6,11 @@ import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.repository.StudentRepository;
 import com.mkh.tutoringplatform.repository.TeacherRepository;
 import com.mkh.tutoringplatform.repository.UserRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaUserRepository;
 import com.mkh.tutoringplatform.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 
 @Service

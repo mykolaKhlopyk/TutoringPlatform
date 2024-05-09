@@ -1,16 +1,12 @@
 package com.mkh.tutoringplatform.service.impl;
 
-import com.mkh.tutoringplatform.domain.exception.AccessDeniedException;
 import com.mkh.tutoringplatform.domain.user.Group;
 import com.mkh.tutoringplatform.domain.user.Lesson;
 import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.repository.GroupRepository;
-import com.mkh.tutoringplatform.repository.UserRepository;
 import com.mkh.tutoringplatform.service.GroupService;
 import lombok.AllArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;

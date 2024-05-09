@@ -52,7 +52,7 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public Course updateCourse(long id, String literature, String task, String link) {
-        SqlCourse course = jpaCourseRepository.findById(id).get();
+        SqlCourse course = jpaCourseRepository.getReferenceById(id);
         course.setLiterature(literature);
         course.setTasks(task);
         course.setLinks(link);

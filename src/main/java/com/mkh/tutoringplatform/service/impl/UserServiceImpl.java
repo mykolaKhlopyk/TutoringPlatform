@@ -4,7 +4,6 @@ import com.mkh.tutoringplatform.domain.exception.ResourceNotFoundException;
 import com.mkh.tutoringplatform.domain.user.user.Role;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.repository.UserRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaUserRepository;
 import com.mkh.tutoringplatform.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

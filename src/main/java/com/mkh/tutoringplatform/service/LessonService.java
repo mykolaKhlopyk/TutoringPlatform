@@ -5,7 +5,6 @@ import com.mkh.tutoringplatform.domain.user.Student;
 import com.mkh.tutoringplatform.domain.user.Teacher;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public interface LessonService {
 
