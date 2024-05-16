@@ -1,15 +1,14 @@
 package com.mkh.tutoringplatform.service;
 
 import com.mkh.tutoringplatform.domain.user.Group;
-import com.mkh.tutoringplatform.domain.user.Teacher;
 
 import java.util.List;
 
 public interface GroupService {
 
-    void createGroup(List<Long> studentsIds, String name, Teacher teacher);
+    void createGroup(List<Long> studentsIds, String name, long courseId);
 
-    List<Group> getGroups(Teacher authenticatedTeacher);
+    List<Group> getGroupsFromCourse(long courseId);
 
     void deleteGroup(long groupId);
 

@@ -23,7 +23,7 @@ public class SqlTeacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private SqlUser user;
 
@@ -40,16 +40,12 @@ public class SqlTeacher {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<SqlStudent> students;
 
-    @ManyToMany
-    @JoinTable(
-            name = "not_confirmed_teachers_students",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<SqlStudent> notConfirmedStudents;
-
-    @OneToMany(mappedBy = "teacher")
-    private List<SqlGroup> sqlGroups;
-
+//    @ManyToMany
+//    @JoinTable(
+//            name = "not_confirmed_teachers_students",
+//            joinColumns = @JoinColumn(name = "teacher_id"),
+//            inverseJoinColumns = @JoinColumn(name = "student_id"))
+//    private List<SqlStudent> notConfirmedStudents;
     @OneToMany(mappedBy = "teacher")
     private List<SqlCourse> courses;
 

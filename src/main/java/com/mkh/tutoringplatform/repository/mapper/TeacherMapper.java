@@ -2,7 +2,6 @@ package com.mkh.tutoringplatform.repository.mapper;
 
 import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.repository.entity.SqlCourse;
-import com.mkh.tutoringplatform.repository.entity.SqlGroup;
 import com.mkh.tutoringplatform.repository.entity.SqlTeacher;
 
 public class TeacherMapper {
@@ -12,7 +11,6 @@ public class TeacherMapper {
                 .id(sqlTeacher.getId())
                 .user(UserMapper.mapToDomainModel(sqlTeacher.getUser()))
                 .registeredAt(sqlTeacher.getRegisteredAt())
-                .groupsIds(sqlTeacher.getSqlGroups().stream().map(SqlGroup::getId).toList())
                 .coursesIds(sqlTeacher.getCourses().stream().map(SqlCourse::getId).toList())
                 .build();
     }

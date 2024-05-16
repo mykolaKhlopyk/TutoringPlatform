@@ -4,8 +4,10 @@ import com.mkh.tutoringplatform.domain.user.Course;
 import com.mkh.tutoringplatform.repository.CourseRepository;
 import com.mkh.tutoringplatform.repository.entity.SqlCourse;
 import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
 import com.mkh.tutoringplatform.repository.mapper.CourseMapper;
+import com.mkh.tutoringplatform.repository.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +22,7 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     private final JpaTeacherRepository jpaTeacherRepository;
 
-    private final JpaTeacherRepository jpaStudentRepository;
+    private final JpaStudentRepository jpaStudentRepository;
 
     @Override
     public boolean existsCourseByName(String name) {
@@ -39,10 +41,11 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public void save(Course course) {
-        var teacher = jpaTeacherRepository.getReferenceById(course.getId());
+        var teacher = jpaTeacherRepository.getReferenceById(course.getTeacherId());
         var sqlCourse = jpaCourseRepository.save(CourseMapper.mapToSqlModelWithoutDependencies(course));
+        sqlCourse.setTeacher(teacher);
         teacher.getCourses().add(sqlCourse);
-//        jpaCourseRepository.save(sqlCourse);
+        jpaCourseRepository.save(sqlCourse);
     }
 
     @Override
@@ -69,9 +72,40 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public List<Course> getStudentCourses(long studentId) {
-        return jpaStudentRepository.getReferenceById(studentId)
-                .getCourses().stream()
-                .map(CourseMapper::mapToDomainModel)
-                .toList();
+        var studentCoursesIds = StudentMapper.mapToDomainModel(jpaStudentRepository.getReferenceById(studentId))
+                .getCoursesIds();
+        return jpaCourseRepository.findAllById(studentCoursesIds).stream().map(CourseMapper::mapToDomainModel).toList();
+    }
+
+    @Override
+    public void sendRequestForSubscribeStudentToCourse(long studentId, long courseId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        var student = jpaStudentRepository.getReferenceById(studentId);
+
+        student.getCourses().add(course);
+        course.getStudentsWithRequest().add(student);
+
+        jpaCourseRepository.save(course);
+    }
+
+    @Override
+    public void agreeRequestForSubscribeStudentToCourse(long courseId, long studentId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        var student = jpaStudentRepository.getReferenceById(studentId);
+
+        course.getStudentsWithRequest().remove(student);
+        course.getStudents().add(student);
+
+        jpaCourseRepository.save(course);
+    }
+
+    @Override
+    public void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        var student = jpaStudentRepository.getReferenceById(studentId);
+
+        course.getStudentsWithRequest().remove(student);
+
+        jpaCourseRepository.save(course);
     }
 }

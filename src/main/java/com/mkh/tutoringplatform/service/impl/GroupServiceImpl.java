@@ -2,7 +2,6 @@ package com.mkh.tutoringplatform.service.impl;
 
 import com.mkh.tutoringplatform.domain.user.Group;
 import com.mkh.tutoringplatform.domain.user.Lesson;
-import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.repository.GroupRepository;
 import com.mkh.tutoringplatform.service.GroupService;
 import lombok.AllArgsConstructor;
@@ -19,10 +18,10 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
 
     @Override
-    public void createGroup(List<Long> studentsIds, String name, Teacher teacher) {
+    public void createGroup(List<Long> studentsIds, String name, long courseId) {
         Group group = Group.builder()
                 .name(name)
-                .teacherId(teacher.getId())
+                .courseId(courseId)
                 .studentsIds(studentsIds)
                 .build();
 
@@ -30,8 +29,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getGroups(Teacher authenticatedTeacher) {
-        return groupRepository.getGroups(authenticatedTeacher.getGroupsIds());
+    public List<Group> getGroupsFromCourse(long courseId) {
+        return groupRepository.getGroupsFromCourse(courseId);
     }
 
     @Override

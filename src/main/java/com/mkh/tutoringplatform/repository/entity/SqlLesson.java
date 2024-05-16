@@ -34,6 +34,9 @@ public class SqlLesson {
     @Column(name = "duration_minutes")
     private int duration;
 
+    @Column(name = "description")
+    private String description;
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -42,7 +45,7 @@ public class SqlLesson {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
-    private SqlGroup sqlGroup;
+    private SqlGroup group;
 
     public Date getTimeFinish() {
         Calendar calendar = Calendar.getInstance();

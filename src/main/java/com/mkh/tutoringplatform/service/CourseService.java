@@ -18,7 +18,13 @@ public interface CourseService {
 
     boolean isCourseWithNameExist(String name);
 
-    void saveCourse(Course course);
+    void saveCourse(String courseName, String courseDescription, long teacherId);
 
     void deleteCourse(long courseId);
+
+    void sendRequestForSubscribeStudentToCourse(long studentId, long courseId);
+
+    void agreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
+
+    void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
 }

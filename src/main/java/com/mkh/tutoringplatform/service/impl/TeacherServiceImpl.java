@@ -6,13 +6,11 @@ import com.mkh.tutoringplatform.repository.TeacherRepository;
 import com.mkh.tutoringplatform.service.TeacherService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;

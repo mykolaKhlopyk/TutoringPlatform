@@ -5,7 +5,10 @@ import com.mkh.tutoringplatform.domain.user.Teacher;
 import com.mkh.tutoringplatform.domain.user.user.User;
 
 public interface RegistrationService {
+
     void registerUser(User user);
-    void registerTeacher(Teacher teacher);
-    void registerStudent(Student student);
+
+    long registerTeacher(Teacher teacher);
+
+    long registerStudent(Student student);
 }

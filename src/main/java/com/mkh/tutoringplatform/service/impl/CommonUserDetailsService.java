@@ -4,7 +4,6 @@ import com.mkh.tutoringplatform.domain.exception.ResourceNotFoundException;
 import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CommonUserDetailsService implements UserDetailsService  {
+public class CommonUserDetailsService implements UserDetailsService {
 
     private final UserServiceImpl userService;
 
