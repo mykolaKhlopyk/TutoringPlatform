@@ -1,7 +1,9 @@
 package com.mkh.tutoringplatform.domain.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
@@ -14,13 +16,17 @@ import java.util.Date;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lesson {
     
     private long id;
 
     @NotNull
-    @Size(min=4, max = 16, message = "Lesson name should be between 6 and 16 characters")
+    @Size(min=6, max = 16, message = "Lesson name should be between 6 and 16 characters")
     private String name;
+
+    private String description;
 
     @NotNull
     @Size(min = 1, max = 300, message = "duration is incorrect")

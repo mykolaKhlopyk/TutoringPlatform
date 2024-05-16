@@ -33,13 +33,13 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void registerTeacher(Teacher teacher) {
+    public long registerTeacher(Teacher teacher) {
         teacher.setRegisteredAt(new Date());
-        teacherRepository.save(teacher);
+        return teacherRepository.save(teacher);
     }
 
     @Override
-    public void registerStudent(Student student) {
-        studentRepository.save(student);
+    public long registerStudent(Student student) {
+        return studentRepository.save(student);
     }
 }

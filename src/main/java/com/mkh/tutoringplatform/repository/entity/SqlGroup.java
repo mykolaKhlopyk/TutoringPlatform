@@ -34,11 +34,11 @@ public class SqlGroup {
     private List<SqlStudent> students;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private SqlTeacher teacher;
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private SqlCourse course;
 
     @OneToMany(mappedBy = "group")
-    private List<SqlLesson> sqlLessons;
+    private List<SqlLesson> lessons;
 
     @Override
     public String toString() {

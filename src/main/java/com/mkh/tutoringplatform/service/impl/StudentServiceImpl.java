@@ -6,11 +6,11 @@ import com.mkh.tutoringplatform.repository.StudentRepository;
 import com.mkh.tutoringplatform.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
@@ -28,5 +28,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void leaveStudentFromCourse(long studentId, long courseId) {
         studentRepository.leaveStudentFromCourse(studentId, courseId);
+    }
+
+    @Override
+    public List<Student> getAllStudentsAskedForSubscribeForCourse(long courseId) {
+        return studentRepository.getAllStudentsAskedForSubscribeForCourse(courseId);
+    }
+
+    @Override
+    public List<Student> getAllStudentsFromCourse(long courseId) {
+        return studentRepository.getAllStudentsFromCourse(courseId);
     }
 }

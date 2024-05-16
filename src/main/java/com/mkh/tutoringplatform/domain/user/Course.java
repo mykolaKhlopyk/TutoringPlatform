@@ -1,7 +1,5 @@
 package com.mkh.tutoringplatform.domain.user;
 
-import com.mkh.tutoringplatform.repository.entity.SqlStudent;
-import com.mkh.tutoringplatform.repository.entity.SqlTeacher;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +16,8 @@ public class Course {
     private String name;
 
     private List<Long> studentsIds;
+
+    private String description;
 
     private Long teacherId;
 

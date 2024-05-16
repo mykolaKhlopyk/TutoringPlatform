@@ -19,8 +19,8 @@ public class TeacherRepositoryImpl implements TeacherRepository {
     }
 
     @Override
-    public void save(Teacher teacher) {
-        jpaTeacherRepository.save(TeacherMapper.mapToSqlModelWithoutDependencies(teacher));
+    public long save(Teacher teacher) {
+        return jpaTeacherRepository.save(TeacherMapper.mapToSqlModelWithoutDependencies(teacher)).getId();
     }
 
     @Override

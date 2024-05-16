@@ -1,20 +1,24 @@
 package com.mkh.tutoringplatform.repository.mapper;
 
-import com.mkh.tutoringplatform.domain.user.Lesson;
 import com.mkh.tutoringplatform.domain.user.Student;
 import com.mkh.tutoringplatform.repository.entity.SqlCourse;
 import com.mkh.tutoringplatform.repository.entity.SqlGroup;
-import com.mkh.tutoringplatform.repository.entity.SqlLesson;
 import com.mkh.tutoringplatform.repository.entity.SqlStudent;
-import org.springframework.stereotype.Component;
+
+import java.util.stream.Stream;
 
 public class StudentMapper {
 
     public static Student mapToDomainModel(SqlStudent sqlStudent) {
+        var coursesIds = Stream.concat(
+                sqlStudent.getCourses().stream(),
+                sqlStudent.getRequestedCourses().stream()
+        ).map(SqlCourse::getId).toList();
+
         return Student.builder()
                 .id(sqlStudent.getId())
                 .user(UserMapper.mapToDomainModel(sqlStudent.getUser()))
-                .coursesIds(sqlStudent.getCourses().stream().map(SqlCourse::getId).toList())
+                .coursesIds(coursesIds)
                 .groupsIds(sqlStudent.getGroups().stream().map(SqlGroup::getId).toList())
                 .build();
     }

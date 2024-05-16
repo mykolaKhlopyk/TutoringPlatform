@@ -22,4 +22,10 @@ public interface CourseRepository {
     List<Course> getTeacherCourses(long teacherId);
 
     List<Course> getStudentCourses(long studentId);
+
+    void sendRequestForSubscribeStudentToCourse(long studentId, long courseId);
+
+    void agreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
+
+    void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
 }

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Details</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <style>
+        /* Basic body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header styles */
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Course details container */
+        .course-details {
+            background: #fff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* List styles for groups */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #0275d8;
+        }
+
+        /* Button styling */
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer styling */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 100px;
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-links img {
+            width: 50px;
+            height: auto;
+            vertical-align: middle;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .course-details, footer {
+                margin: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .scrollableTable {
+            width: 100%; /* Adjust the width as needed */
+            border-collapse: collapse;
+        }
+
+        .scrollableTable thead th {
+            background-color: #f2f2f2;
+            position: sticky;
+            /*top: 0; !* Keeps the header on top *!*/
+            /*z-index: 10;*/
+        }
+
+        .scrollableTable tbody {
+            display: block;
+            max-height: 300px; /* Adjust based on your needs */
+            overflow-y: auto;
+        }
+
+        .scrollableTable thead, .scrollableTable tbody tr {
+            display: table;
+            width: 100%; /* Make table rows display full width */
+            table-layout: fixed; /* Optional: Helps columns to have equal width */
+        }
+
+        .scrollableTable th, .scrollableTable td {
+            padding: 8px;
+            border: 1px solid #ddd; /* Styling borders */
+            text-align: left; /* Align text to the left */
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="headers/teacher-header"></div>
+
+<div class="course-details">
+    <h1 th:text="${course.name}">Course Name</h1>
+    <p th:text="${course.description}">Description of the course.</p>
+    <div class="course-info">
+        <form th:action="@{|/courses/${course.getId()}|}" th:method="put">
+
+            <label for="literature">Literature:</label>
+            <textarea id="literature" name="literature" rows="5" th:text="${course.literature}"></textarea>
+
+            <label for="task">Tasks:</label>
+            <textarea id="task" name="task" rows="5" th:text="${course.tasks}"></textarea>
+
+            <label for="link">Links:</label>
+            <textarea id="link" name="link" rows="5" th:text="${course.links}"></textarea>
+
+            <button type="submit" onclick="saveMessage()">Save changes</button>
+        </form>
+    </div>
+
+    <div th:if="${messageSaved}">
+        <div id="notification" class="notification">Updates saved!</div>
+    </div>
+
+
+</div>
+<div class="course-details">
+
+    <h2>Groups</h2>
+    <div class="container py-5">
+        <div class="row">
+            <table class="scrollableTable" id="example1" style="width:100%">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="group, iStat: ${groups}">
+                    <td th:text="${iStat.index + 1}"/>
+                    <td>
+                        <a th:href="@{|/groups/${group.id}|}" th:text="${group.name}"/>
+                    </td>
+                    <td th:text="${group.studentsIds.size()}"/>
+                    <td>
+                        <button class="btn btn-primary createLessonButton" th:data-group-id="${group.id}">Create New Lesson</button>
+                        <form th:method="DELETE" th:action="@{|/groups/${group.id}|}" style="display: inline-block;">
+                            <input type="submit" value="Delete group">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button id="createGroupButton" class="btn btn-primary">Create New Group</button>
+</div>
+
+<!-- The Modal -->
+<div id="createGroupModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form-group">
+            <label for="groupName">Group Name:</label>
+            <input type="text" class="form-control" id="groupName" placeholder="Enter group name" name="groupName"
+                   required>
+        </div>
+        <form id="selectedStudentsForm" th:action="@{|/groups/course/${course.id}|}" th:object="${selectedStudents}"
+              method="post">
+            <div class="container py-5">
+                <div class="row">
+                    <table id="example2" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Username</th>
+                            <th>E-mail</th>
+                            <th>Full name</th>
+                            <th>Operations</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="student, iStat: ${students}">
+                            <td th:text="${iStat.index + 1}"/>
+                            <td th:text="${student.user.username}"/>
+                            <td th:text="${student.user.email }"/>
+                            <td th:text="${student.user.name + ' ' + student.user.surname}"/>
+                            <td>
+                                <input type="checkbox" th:name="'selectedStudents[' + ${iStat.index} + '].selected'"
+                                       th:value="${student.id}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <button type="submit" form="selectedStudentsForm">Submit</button>
+
+    </div>
+</div>
+
+<div id="createLessonModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form-group">
+            <form th:action="@{|/lessons/group/${groupId}|}" th:method="post">
+                <div class="form-group">
+                    <label for="lessonName">Lesson Name:</label>
+                    <input type="text" class="form-control" id="lessonName" placeholder="Enter lesson name" name="lessonName">
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">Start Time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" name="startDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration (minutes):</label>
+                    <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter duration in minutes">
+                </div>
+
+                <input type="hidden" id="courseId" name="courseId" th:value="${course.id}">
+                <input type="hidden" id="groupId" name="groupId" value="">
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a th:href="@{/students/course/{id}/request/subscribe(id = ${course.getId()})}">
+            <img th:src="@{'image/subscribers.webp'}" alt="Subscribed Students">
+        </a>
+        <a th:href="@{/students/requested}">
+            <img src="test.png" alt="Requested to Subscribe Students">
+        </a>
+    </div>
+</footer>
+
+<script>
+    // Display the notification and hide it after 3 seconds
+    document.addEventListener('DOMContentLoaded', function () {
+        var notification = document.getElementById('notification');
+
+        // Show the notification
+        notification.style.display = 'block';
+
+        // Hide the notification after 3 seconds
+        setTimeout(function () {
+            notification.style.display = 'none';
+        }, 3000); // 3000 milliseconds (3 seconds)
+    });
+
+    $(document).ready(function () {
+        $('#courseTable').DataTable({
+            "pagingType": "full_numbers"
+        });
+
+        var groupModal = document.getElementById("createGroupModal");
+        var btn = document.getElementById("createGroupButton");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            groupModal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            groupModal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == groupModal) {
+                groupModal.style.display = "none";
+            }
+        }
+
+        // New modal and button
+        var lessonModal = document.getElementById("createLessonModal");
+        var lessonSpan = lessonModal.getElementsByClassName("close")[0];
+        var lessonForm = lessonModal.querySelector("form");
+
+        // Event listener for all lesson creation buttons
+        document.querySelectorAll(".createLessonButton").forEach(button => {
+            button.addEventListener('click', function () {
+                var groupId = this.getAttribute('data-group-id');  // Get group ID from data attribute
+                lessonForm.action = `/lessons/group/${groupId}`; // Set the form action with the group ID
+                lessonModal.style.display = "block";              // Display the modal
+            });
+        });
+
+        lessonSpan.onclick = function () {
+            lessonModal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == lessonModal) {
+                lessonModal.style.display = "none";
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        // $('#example1').DataTable();
+       // $('#example2').DataTable();
+    });
+</script>
+
+<script th:inline="javascript">
+    function getSelectedStudents() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var selectedStudents = [];
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedStudents.push(checkbox.value);
+            }
+        });
+
+        return selectedStudents;
+    }
+
+    function getInputName() {
+        var inputElement = document.querySelector('input[name="groupName"]');
+        if (inputElement) {
+            return inputElement.value;
+        } else {
+            return null;
+        }
+    }
+
+    document.getElementById('selectedStudentsForm').addEventListener('submit', function (event) {
+        var selectedStudents = getSelectedStudents();
+        var hiddenInput1 = document.createElement('input');
+
+        var name = getInputName();
+        var hiddenInput2 = document.createElement('input');
+
+        hiddenInput1.setAttribute('type', 'hidden');
+        hiddenInput1.setAttribute('name', 'selectedStudentIds');
+        hiddenInput1.setAttribute('value', selectedStudents);
+
+
+        hiddenInput2.setAttribute('type', 'hidden');
+        hiddenInput2.setAttribute('name', 'groupName');
+        hiddenInput2.setAttribute('value', name);
+
+
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput1);
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput2);
+    });
+</script>
+</body>
+</html>

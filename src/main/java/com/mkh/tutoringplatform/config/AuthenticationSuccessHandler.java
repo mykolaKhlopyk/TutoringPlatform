@@ -13,7 +13,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 //        var isAdmin = authentication.getAuthorities() ... можна по ролі визначити на яку сторінку перенаправити
-        setDefaultTargetUrl("/home");
+        setDefaultTargetUrl("/courses");
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

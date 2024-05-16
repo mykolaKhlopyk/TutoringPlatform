@@ -38,7 +38,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     public void save(Lesson lesson) {
         var sqlLesson = LessonMapper.mapToSqlModelWithoutDependencies(lesson);
         var group = jpaGroupRepository.getReferenceById(lesson.getGroupId());
-        sqlLesson.setSqlGroup(group);
+        sqlLesson.setGroup(group);
         jpaLessonRepository.save(sqlLesson);
     }
 
@@ -46,8 +46,9 @@ public class LessonRepositoryImpl implements LessonRepository {
     public List<Lesson> getTeacherLessons(long teacherId) {
         var teacher = jpaTeacherRepository.getReferenceById(teacherId);
         //maybe incorrect because of lazy hibernate
-        return teacher.getSqlGroups().stream()
-                .map(SqlGroup::getSqlLessons)
+        return teacher.getCourses().stream()
+                .flatMap(course -> course.getGroups().stream())
+                .map(SqlGroup::getLessons)
                 .flatMap(Collection::stream)
                 .map(LessonMapper::mapToDomainModel)
                 .toList();
@@ -56,7 +57,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     @Override
     public List<Lesson> getLessonsFromGroups(List<Long> groupsIds) {
         return jpaGroupRepository.findAllById(groupsIds).stream()
-                .map(SqlGroup::getSqlLessons)
+                .map(SqlGroup::getLessons)
                 .flatMap(Collection::stream)
                 .map(LessonMapper::mapToDomainModel)
                 .toList();

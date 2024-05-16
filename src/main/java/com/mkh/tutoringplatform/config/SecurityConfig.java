@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-public class ApplicationConfig {
+public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
@@ -27,7 +27,7 @@ public class ApplicationConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/teacher/**").hasRole("TEACHER")
                         .requestMatchers("/student/**").hasRole("STUDENT")
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/courses").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin (form -> form

@@ -3,6 +3,7 @@ package com.mkh.tutoringplatform.repository.impl;
 import com.mkh.tutoringplatform.domain.user.Group;
 import com.mkh.tutoringplatform.repository.GroupRepository;
 import com.mkh.tutoringplatform.repository.entity.SqlGroup;
+import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaGroupRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
@@ -23,12 +24,14 @@ public class GroupRepositoryImpl implements GroupRepository {
 
     private final JpaStudentRepository jpaStudentRepository;
 
+    private final JpaCourseRepository jpaCourseRepository;
+
     @Override
     public void save(Group group) {
         SqlGroup sqlGroup = GroupMapper.mapToSqlModelWithoutDependencies(group);
-        sqlGroup.setTeacher(jpaTeacherRepository.getReferenceById(group.getId()));
         sqlGroup.setStudents(group.getStudentsIds().stream().map(jpaStudentRepository::getReferenceById).toList());
-        jpaGroupRepository.save(GroupMapper.mapToSqlModelWithoutDependencies(group));
+        sqlGroup.setCourse(jpaCourseRepository.getReferenceById(group.getCourseId()));
+        jpaGroupRepository.save(sqlGroup);
     }
 
     @Override
@@ -42,7 +45,10 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
-    public List<Group> getGroups(List<Long> groupsIds) {
-        return jpaGroupRepository.findAllById(groupsIds).stream().map(GroupMapper::mapToDomainModel).toList();
+    public List<Group> getGroupsFromCourse(long courseId) {
+        return jpaCourseRepository.getReferenceById(courseId)
+                .getGroups().stream()
+                .map(GroupMapper::mapToDomainModel)
+                .toList();
     }
 }

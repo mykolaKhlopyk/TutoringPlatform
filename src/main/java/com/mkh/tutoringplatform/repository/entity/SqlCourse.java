@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@NamedEntityGraph(name = "course-with-teacher",
+        attributeNodes = @NamedAttributeNode("teacher"))
 public class SqlCourse {
 
     @Id
@@ -26,6 +28,14 @@ public class SqlCourse {
     @Size(min = 3, max = 16, message = "Course name should be between 3 and 16 characters")
     private String name;
 
+    private String description;
+
+    private String literature;
+
+    private String tasks;
+
+    private String links;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "students_courses",
@@ -34,15 +44,20 @@ public class SqlCourse {
     )
     private List<SqlStudent> students;
 
-    @ManyToOne
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "requested_students_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<SqlStudent> studentsWithRequest;
+
+    @OneToMany(mappedBy = "course")
+    private List<SqlGroup> groups;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private SqlTeacher teacher;
-
-    private String literature;
-
-    private String tasks;
-
-    private String links;
 
     @Override
     public String toString() {

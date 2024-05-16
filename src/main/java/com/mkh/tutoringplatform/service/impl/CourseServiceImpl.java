@@ -40,7 +40,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void saveCourse(Course course) {
+    public void saveCourse(String courseName, String courseDescription, long teacherId) {
+        var course = Course.builder()
+                .name(courseName)
+                .description(courseDescription)
+                .teacherId(teacherId)
+                .build();
         courseRepository.save(course);
     }
 
@@ -52,5 +57,20 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getStudentCourses(long studentId) {
         return courseRepository.getStudentCourses(studentId);
+    }
+
+    @Override
+    public void sendRequestForSubscribeStudentToCourse(long studentId, long courseId) {
+        courseRepository.sendRequestForSubscribeStudentToCourse(studentId, courseId);
+    }
+
+    @Override
+    public void agreeRequestForSubscribeStudentToCourse(long courseId, long studentId) {
+        courseRepository.agreeRequestForSubscribeStudentToCourse(courseId, studentId);
+    }
+
+    @Override
+    public void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId) {
+        courseRepository.disagreeRequestForSubscribeStudentToCourse(courseId, studentId);
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+</head>
+<body>
+<div th:replace="teacher/teacher-header"></div>
+<div class="container py-5">
+    <div th:replace="headers/teacher-header"></div>
+    <div class="row">
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>E-mail</th>
+                <th>Full name</th>
+                <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student, iStat: ${students}">
+                <td th:text="${iStat.index + 1}"/>
+                <td th:text="${student.user.username}"/>
+                <td th:text="${student.user.email }"/>
+                <td th:text="${student.user.name + ' ' + student.user.surname}"/>
+                <td>
+                    <form th:method="PATCH" th:action="@{|/courses/${courseId}/request/subscribe/agree/${student.getId()}|}"
+                          style="display: inline-block;">
+                        <input type="submit" value="Agree">
+                    </form>
+                    <form th:method="PATCH" th:action="@{|/courses/${courseId}/request/subscribe/disagree/${student.getId()}|}"
+                          style="display: inline-block;">
+                        <input type="submit" value="Disagree">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+</body>
+</html>

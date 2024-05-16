@@ -27,8 +27,11 @@ public class SqlStudent {
     @ManyToMany(mappedBy = "students")
     private List<SqlTeacher> teachers;
 
-    @ManyToMany(mappedBy = "notConfirmedStudents")
-    private List<SqlTeacher> requestedTeachers;
+    @ManyToMany(mappedBy = "studentsWithRequest")
+    private List<SqlCourse> requestedCourses;
+
+//    @ManyToMany(mappedBy = "notConfirmedStudents")
+//    private List<SqlTeacher> requestedTeachers;
 
     @ManyToMany(mappedBy = "students")
     private List<SqlGroup> groups;

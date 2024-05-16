@@ -40,13 +40,18 @@ public class AuthController {
     }
 
     @PostMapping("/registration/user")
-
     public String performRegistration(@ModelAttribute("role") String role, @ModelAttribute("user") @Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "auth/user-registration";
         }
-        registrationService.registerUser(user);
+        user.setUserRole(
+                switch (role){
+                    case "teacher" -> User.UserRole.TEACHER;
+                    case "student" -> User.UserRole.STUDENT;
+                    default -> throw new IllegalStateException("Unexpected value: " + role);
+                }
+        );
         if (role.equals("teacher")) {
             user.setRoles(new HashSet<>(List.of(Role.ROLE_TEACHER)));
             Teacher teacher = Teacher.builder()

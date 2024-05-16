@@ -8,6 +8,7 @@ import com.mkh.tutoringplatform.repository.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,8 +25,8 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public void save(Student student) {
-        jpaStudentRepository.save(StudentMapper.mapToSqlModelWithoutDependencies(student));
+    public long save(Student student) {
+        return jpaStudentRepository.save(StudentMapper.mapToSqlModelWithoutDependencies(student)).getId();
     }
 
     @Override
@@ -40,5 +41,17 @@ public class StudentRepositoryImpl implements StudentRepository {
         var student = jpaStudentRepository.getReferenceById(studentId);
 //        var course = jpaCourseRepository.getReferenceById(courseId);
         student.getCourses().removeIf(studentCourse -> studentCourse.getId() == courseId);
+    }
+
+    @Override
+    public List<Student> getAllStudentsAskedForSubscribeForCourse(long courseId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        return course.getStudentsWithRequest().stream().map(StudentMapper::mapToDomainModel).toList();
+    }
+
+    @Override
+    public List<Student> getAllStudentsFromCourse(long courseId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        return course.getStudents().stream().map(StudentMapper::mapToDomainModel).toList();
     }
 }

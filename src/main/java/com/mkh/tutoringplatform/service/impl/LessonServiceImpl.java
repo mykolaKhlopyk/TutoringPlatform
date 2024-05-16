@@ -7,7 +7,6 @@ import com.mkh.tutoringplatform.repository.LessonRepository;
 import com.mkh.tutoringplatform.service.LessonService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,13 +15,18 @@ import java.util.function.Predicate;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
 
     @Override
-    public void save(Lesson lesson) {
+    public void createLesson(long groupId, String lessonName, Date timeStart, int duration) {
+        Lesson lesson = Lesson.builder()
+                .name(lessonName)
+                .duration(duration)
+                .timeStart(timeStart)
+                .groupId(groupId)
+                .build();
         lessonRepository.save(lesson);
     }
 
