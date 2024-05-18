@@ -43,7 +43,7 @@ public class SqlLesson {
     @Column(name = "time_start")
     private Date timeStart;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private SqlGroup group;
 

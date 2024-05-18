@@ -33,11 +33,11 @@ public class SqlGroup {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<SqlStudent> students;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private SqlCourse course;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SqlLesson> lessons;
 
     @Override

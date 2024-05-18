@@ -26,7 +26,7 @@
         /* Course details container */
         .course-details {
             background: #fff;
-            margin: 20px;
+            margin: 30px;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -166,6 +166,9 @@
             text-align: left; /* Align text to the left */
         }
 
+        .footer-spacer {
+            height: 70px; /* Set this value to match the height of your footer */
+        }
     </style>
 </head>
 <body>
@@ -218,8 +221,11 @@
                     </td>
                     <td th:text="${group.studentsIds.size()}"/>
                     <td>
-                        <button class="btn btn-primary createLessonButton" th:data-group-id="${group.id}">Create New Lesson</button>
+                        <button class="btn btn-primary createLessonButton" th:data-group-id="${group.id}">Create New
+                            Lesson
+                        </button>
                         <form th:method="DELETE" th:action="@{|/groups/${group.id}|}" style="display: inline-block;">
+                            <input type="hidden" name="courseId" th:value="${course.id}">
                             <input type="submit" value="Delete group">
                         </form>
                     </td>
@@ -282,7 +288,8 @@
             <form th:action="@{|/lessons/group/${groupId}|}" th:method="post">
                 <div class="form-group">
                     <label for="lessonName">Lesson Name:</label>
-                    <input type="text" class="form-control" id="lessonName" placeholder="Enter lesson name" name="lessonName">
+                    <input type="text" class="form-control" id="lessonName" placeholder="Enter lesson name"
+                           name="lessonName">
                 </div>
 
                 <div class="form-group">
@@ -292,7 +299,8 @@
 
                 <div class="form-group">
                     <label for="duration">Duration (minutes):</label>
-                    <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter duration in minutes">
+                    <input type="number" class="form-control" id="duration" name="duration"
+                           placeholder="Enter duration in minutes">
                 </div>
 
                 <input type="hidden" id="courseId" name="courseId" th:value="${course.id}">
@@ -304,6 +312,8 @@
     </div>
 </div>
 
+<div class="footer-spacer"></div>
+
 <footer>
     <div class="footer-links">
         <a th:href="@{/students/course/{id}/request/subscribe(id = ${course.getId()})}">
@@ -313,6 +323,10 @@
             <img src="test.png" alt="Requested to Subscribe Students">
         </a>
     </div>
+    <form th:method="DELETE" th:action="@{|/courses/${course.id}|}" style="display: inline-block;">
+        <input type="submit" value="Remove course"
+               style="background-color: red; color: white; border: none; padding: 10px 20px; cursor: pointer;">
+    </form>
 </footer>
 
 <script>
@@ -379,7 +393,7 @@
 
     $(document).ready(function () {
         // $('#example1').DataTable();
-       // $('#example2').DataTable();
+        // $('#example2').DataTable();
     });
 </script>
 
@@ -427,5 +441,6 @@
         document.getElementById('selectedStudentsForm').appendChild(hiddenInput2);
     });
 </script>
+
 </body>
 </html>

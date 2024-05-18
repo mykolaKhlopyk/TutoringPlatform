@@ -54,32 +54,34 @@
 
 <div th:replace="headers/teacher-header"></div>
 
-<!--<div class="header-area">-->
-<!--    <h1>Courses List</h1>-->
-<!--    <div>-->
-<!--        <button id="myBtn" class="btn btn-primary">Create Course</button>-->
-<!--        <a th:if="${auth}" th:href="@{|/auth/login|}" class="btn btn-lg btn-secondary btn-block">Login</a>-->
-<!--        <button th:href="@{|/auth/login|}" class="btn btn-info">Support</button>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="header-area">
+    <h1>Courses List</h1>
+    <div>
+        <button id="myBtn" class="btn btn-primary">Create Course</button>
+        <a th:if="${auth}" th:href="@{|/auth/login|}" class="btn btn-lg btn-secondary btn-block">Login</a>
+        <button th:href="@{|/auth/login|}" class="btn btn-info">Support</button>
+    </div>
+</div>
 <div class="container mt-4">
     <table id="courseTable" class="table table-striped" style="width:100%">
         <thead>
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Teacher Name</th>
-            <th>Subscribe</th>
+            <th>Amount of students</th>
+            <th>Amount of students asked to subscribe</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="course : ${courses}">
             <td th:text="${course.name}"></td>
             <td th:text="${course.description}"></td>
-            <td th:text="${course.teacherName}"></td>
+            <td th:text="${amountOfStudents}"></td>
+            <td th:text="${amountOfStudentsAskedToSubscribe}"></td>
             <td>
-                <form th:method="PATCH" th:action="@{|courses/${course.courseId()}/request/subscribe|}"  style="display: inline-block;">
-                    <input type="submit" value="Agree">
+                <form th:method="get" th:action="@{|/courses/${course.courseId()}/teacher|}"  style="display: inline-block;">
+                    <input type="submit" value="Go to course">
                 </form>
             </td>
         </tr>

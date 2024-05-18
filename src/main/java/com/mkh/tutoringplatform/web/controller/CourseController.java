@@ -67,9 +67,11 @@ public class CourseController {
 
         model.addAllAttributes(Map.of(
                 "auth", true,
-                "courses", courseResponse
+                "courses", courseResponse,
+                "amountOfStudents", 0,
+                "amountOfStudentsAskedToSubscribe", 0
         ));
-        return "course/all-courses-page";
+        return "course/all-teacher-courses-page";
     }
 
     @GetMapping("/student")
@@ -114,6 +116,12 @@ public class CourseController {
         redirectAttributes.addFlashAttribute("messageSaved", true);
         courseService.updateCourse(courseId, literature, task, link);
         return "redirect:/courses/" + courseId + "/teacher";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCourse(@PathVariable("id") long courseId) {
+        courseService.deleteCourse(courseId);
+        return "redirect:/courses/teacher";
     }
 
     @PatchMapping("/{id}/request/subscribe")

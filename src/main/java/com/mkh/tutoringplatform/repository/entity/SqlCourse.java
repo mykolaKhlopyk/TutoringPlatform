@@ -52,15 +52,15 @@ public class SqlCourse {
     )
     private List<SqlStudent> studentsWithRequest;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SqlGroup> groups;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private SqlTeacher teacher;
 
     @Override
     public String toString() {
-        return "Course";
+        return "Course " + id;
     }
 }

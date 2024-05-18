@@ -46,7 +46,7 @@ public class SqlTeacher {
 //            joinColumns = @JoinColumn(name = "teacher_id"),
 //            inverseJoinColumns = @JoinColumn(name = "student_id"))
 //    private List<SqlStudent> notConfirmedStudents;
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SqlCourse> courses;
 
     @Override
