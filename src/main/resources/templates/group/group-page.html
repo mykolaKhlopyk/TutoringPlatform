@@ -55,7 +55,7 @@
         }
 
         /* Button styling */
-        button {
+        .button {
             padding: 10px 20px;
             background-color: #007BFF;
             color: white;
@@ -176,7 +176,7 @@
 <body>
 <div th:replace="headers/teacher-header"></div>
 
-<h1 style="margin-bottom: 30px" th:text="${'Group ' + group.name}"></h1>
+<h1 style="margin-bottom: 30px; margin-left: 30px" th:text="${'Group ' + group.name}"></h1>
 
 <div class="course-details">
     <h2>Lessons</h2>
@@ -240,7 +240,7 @@
     </div>
 </div>
 
-<button id="createLessonButton" class="btn btn-primary">Create New Lesson</button>
+<button style="margin-left: 30px" id="createLessonButton" class="btn btn-primary button">Create New Lesson</button>
 
 <!-- Create lesson modal -->
 <div th:replace="modal/create-lesson-modal :: createLesson(${group.id}, ${0}, @{|/lessons/group/${group.id}/group-page|})"></div>

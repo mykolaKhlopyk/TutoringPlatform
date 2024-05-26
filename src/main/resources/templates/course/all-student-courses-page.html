@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <style>
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="headers/student-header"></div>
+
+<div class="header-area">
+    <h1>Courses List</h1>
+</div>
+<div class="container mt-4">
+    <table id="courseTable" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Amount of students</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.description}"></td>
+            <td th:text="${amountOfStudents}"></td>
+            <td>
+                <form th:method="get" th:action="@{|/courses/${course.courseId()}/student|}"  style="display: inline-block;">
+                    <input type="submit" value="Go to course">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

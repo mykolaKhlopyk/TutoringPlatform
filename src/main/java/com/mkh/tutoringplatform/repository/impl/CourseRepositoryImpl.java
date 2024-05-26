@@ -72,9 +72,8 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public List<Course> getStudentCourses(long studentId) {
-        var studentCoursesIds = StudentMapper.mapToDomainModel(jpaStudentRepository.getReferenceById(studentId))
-                .getCoursesIds();
-        return jpaCourseRepository.findAllById(studentCoursesIds).stream().map(CourseMapper::mapToDomainModel).toList();
+        return jpaStudentRepository.getReferenceById(studentId).getCourses().stream()
+                .map(CourseMapper::mapToDomainModel).toList();
     }
 
     @Override

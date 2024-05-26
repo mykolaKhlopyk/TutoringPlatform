@@ -8,40 +8,32 @@
 
 </head>
 <body>
-<div th:replace="teacher/teacher-header"></div>
+<div th:replace="headers/student-header"></div>
 <div class="container py-5">
     <div class="row">
-        <h2 style="margin-bottom: 30px" th:text="${'Group ' + group.name}"></h2>
+        <h2 style="margin-bottom: 30px">Your planned lessons</h2>
 
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
             <tr>
                 <th>No.</th>
-                <th>Subject</th>
+                <th>Name</th>
+                <th>Description</th>
                 <th>Start time</th>
                 <th>Finish time</th>
-                <th>Operation</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="lesson, iStat: ${lessons}">
+            <tr th:each="lesson, iStat: ${lessonsInfos}">
                 <td th:text="${iStat.index + 1}"/>
                 <td th:text="${lesson.name}"/>
+                <td th:text="${lesson.description}"/>
                 <td th:text="${lesson.timeStart}"/>
-                <td th:text="${lesson.getStringTimeFinish()}"/>
-                <td>
-                    <form th:method="DELETE" th:action="@{|/teacher/group/${group_id}/lesson/delete/${lesson.id}|}"
-                          style="display: inline-block;">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
+                <td th:text="${lesson.timeFinish}"/>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<form class="form-horizontal" style="margin-left: 130px" th:action="@{|/teacher/create/${group_id}/lesson/|}" method="get">
-    <button type="submit" class="btn btn-primary mb-2">Create Lesson</button>
-</form>
 </body>
 </html>

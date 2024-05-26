@@ -36,6 +36,11 @@
             width: 80%;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
         }
+        .customForButton {
+            margin-left: 190px;
+            margin-top: 20px;
+
+        }
         .close {
             color: #aaa;
             float: right;
@@ -72,8 +77,8 @@
         <tr th:each="course : ${courses}">
             <td th:text="${course.name}"></td>
             <td th:text="${course.description}"></td>
-            <td th:text="${amountOfStudents}"></td>
-            <td th:text="${amountOfStudentsAskedToSubscribe}"></td>
+            <td th:text="${course.studentsIdsSize}"></td>
+            <td th:text="${course.studentsWithRequestIdsSize}"></td>
             <td>
                 <form th:method="get" th:action="@{|/courses/${course.courseId()}/teacher|}"  style="display: inline-block;">
                     <input type="submit" value="Go to course">
@@ -84,7 +89,7 @@
     </table>
 </div>
 
-<button id="myBtn" class="btn btn-primary">Create Course</button>
+<button id="myBtn" class="btn btn-primary customForButton">Create Course</button>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">

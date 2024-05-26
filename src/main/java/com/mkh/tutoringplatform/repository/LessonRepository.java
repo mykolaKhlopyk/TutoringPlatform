@@ -16,4 +16,8 @@ public interface LessonRepository {
     List<Lesson> getTeacherLessons(long teacherId);
 
     List<Lesson> getLessonsFromGroups(List<Long> groupsIds);
+
+    List<Lesson> getStudentLessonsFromCourse(long courseId, long studentId);
+
+    List<Lesson> getStudentLessons(long studentId);
 }

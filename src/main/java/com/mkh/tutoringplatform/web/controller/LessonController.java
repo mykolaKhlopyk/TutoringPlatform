@@ -44,6 +44,18 @@ public class LessonController {
         return "lesson/show-lessons-page";
     }
 
+    @GetMapping("/student")
+    public String getAllStudentLessons(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        long studentId = getAuthenticatedUser(userDetails).getUserInitiatorId();
+
+        var lessons = lessonService.getStudentLessons(studentId);
+
+        var lessonsInfos = lessons.stream().map(LessonInfoResponse::of);
+        model.addAttribute("lessonsInfos", lessonsInfos);
+
+        return "lesson/show-lessons-student-page";
+    }
+
     @PostMapping("/group/{id}")
     public String createLesson(
             @PathVariable("id") long groupId,

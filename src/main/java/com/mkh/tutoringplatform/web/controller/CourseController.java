@@ -1,11 +1,13 @@
 package com.mkh.tutoringplatform.web.controller;
 
 import com.mkh.tutoringplatform.domain.user.Course;
-import com.mkh.tutoringplatform.domain.user.user.User;
+import com.mkh.tutoringplatform.domain.user.Student;
 import com.mkh.tutoringplatform.service.CourseService;
 import com.mkh.tutoringplatform.service.GroupService;
+import com.mkh.tutoringplatform.service.LessonService;
 import com.mkh.tutoringplatform.service.StudentService;
 import com.mkh.tutoringplatform.web.response.CourseInfoResponse;
+import com.mkh.tutoringplatform.web.response.LessonInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Map;
 
-import static com.mkh.tutoringplatform.domain.user.user.User.UserRole.TEACHER;
 import static com.mkh.tutoringplatform.domain.user.user.User.UserRole.UNSPECIFIED;
 import static com.mkh.tutoringplatform.web.utils.ControllerUtils.getAuthenticatedUser;
 import static com.mkh.tutoringplatform.web.utils.ControllerUtils.isAvailableResourceForUser;
@@ -32,6 +33,8 @@ public class CourseController {
     private final GroupService groupService;
 
     private final StudentService studentsService;
+
+    private final LessonService lessonService;
 
     @GetMapping
     public String getAllCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -75,9 +78,7 @@ public class CourseController {
 
         model.addAllAttributes(Map.of(
                 "auth", true,
-                "courses", courseResponse,
-                "amountOfStudents", 0,
-                "amountOfStudentsAskedToSubscribe", 0
+                "courses", courseResponse
         ));
         return "course/all-teacher-courses-page";
     }
@@ -92,7 +93,7 @@ public class CourseController {
                 .toList();
         model.addAttribute("courses", courseResponse);
         model.addAttribute("auth", true);
-        return "course/all-courses-page";
+        return "course/all-student-courses-page";
     }
 
     @GetMapping("/{id}/teacher")
@@ -105,13 +106,34 @@ public class CourseController {
 
         var groups = groupService.getGroupsFromCourse(courseId);
         var students = studentsService.getAllStudentsFromCourse(courseId);
+        var requestedAmount = studentsService.getAllStudentsAskedForSubscribeForCourse(courseId);
         model.addAllAttributes(Map.of(
                 "course", course,
                 "groups", groups,
-                "students", students
+                "students", students,
+                "requestedAmount", requestedAmount.size()
         ));
 
         return "course/course-for-owner-page";
+    }
+
+    @GetMapping("/{id}/student")
+    //Role
+    public String getCourseForStudent(@PathVariable("id") long courseId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        var studentId = getAuthenticatedUser(userDetails).getUserInitiatorId();
+        var course = courseService.getCourseById(courseId);
+
+        var subscribersIds = studentsService.getAllStudentsFromCourse(courseId).stream().map(Student::getId).toList();
+
+        isAvailableResourceForUser(subscribersIds, studentId);
+
+        var lessonsInfos = lessonService.getStudentLessonsFromCourse(courseId, studentId).stream().map(LessonInfoResponse::of).toList();
+        model.addAllAttributes(Map.of(
+                "course", course,
+                "lessonsInfos", lessonsInfos
+        ));
+
+        return "course/course-for-student-page";
     }
 
     @PutMapping("/{id}")
@@ -195,6 +217,8 @@ public class CourseController {
                 .teacherName("Test")
                 .courseId(course.getId())
                 .showForOwner(true)
+                .studentsIdsSize(course.getStudentsIds().size())
+                .studentsWithRequestIdsSize(course.getStudentsWithRequestIds().size())
                 .build();
     }
 }

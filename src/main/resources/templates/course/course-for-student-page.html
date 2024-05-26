@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Details</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <style>
+
+        /* Basic body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header styles */
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Course details container */
+        .course-details {
+            background: #fff;
+            margin: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* List styles for groups */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #0275d8;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer styling */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+        }
+
+        .scrollableTable thead th {
+            background-color: #f2f2f2;
+            position: sticky;
+            /*top: 0; !* Keeps the header on top *!*/
+            /*z-index: 10;*/
+        }
+
+        .scrollableTable tbody {
+            display: block;
+            max-height: 300px; /* Adjust based on your needs */
+            overflow-y: auto;
+        }
+
+        .scrollableTable thead, .scrollableTable tbody tr {
+            display: table;
+            width: 100%; /* Make table rows display full width */
+            table-layout: fixed; /* Optional: Helps columns to have equal width */
+        }
+
+        .scrollableTable th, .scrollableTable td {
+            padding: 8px;
+            border: 1px solid #ddd; /* Styling borders */
+            text-align: left; /* Align text to the left */
+        }
+
+        .footer-spacer {
+            height: 70px; /* Set this value to match the height of your footer */
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="headers/student-header"></div>
+
+<div class="course-details">
+    <h1 th:text="${course.name}">Course Name</h1>
+    <p th:text="${course.description}">Description of the course.</p>
+    <div class="course-info">
+        <form th:action="@{|/courses/${course.getId()}|}" th:method="put">
+
+            <label for="literature">Literature:</label>
+            <textarea id="literature" name="literature" rows="5" th:text="${course.literature}" readonly
+                      required></textarea>
+
+            <label for="task">Tasks:</label>
+            <textarea id="task" name="task" rows="5" th:text="${course.tasks}" readonly required></textarea>
+
+            <label for="link">Links:</label>
+            <textarea id="link" name="link" rows="5" th:text="${course.links}" readonly required></textarea>
+        </form>
+    </div>
+</div>
+
+<div th:if="${lessonsInfos.size()}>0" class="course-details">
+    <h1>Planned lessons</h1>
+    <table id="example" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start time</th>
+            <th>Finish time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lesson, iStat: ${lessonsInfos}">
+            <td th:text="${iStat.index + 1}"/>
+            <td th:text="${lesson.name}"/>
+            <td th:text="${lesson.description}"/>
+            <td th:text="${lesson.timeStart}"/>
+            <td th:text="${lesson.timeFinish}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

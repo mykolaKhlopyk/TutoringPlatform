@@ -61,6 +61,16 @@ public class LessonServiceImpl implements LessonService {
         lessonRepository.deleteById(lessonId);
     }
 
+    @Override
+    public List<Lesson> getStudentLessonsFromCourse(long courseId, long studentId) {
+        return lessonRepository.getStudentLessonsFromCourse(courseId, studentId);
+    }
+
+    @Override
+    public List<Lesson> getStudentLessons(long studentId) {
+        return lessonRepository.getStudentLessons(studentId);
+    }
+
     private Predicate<Lesson> getPredicateForTodayLessons() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());

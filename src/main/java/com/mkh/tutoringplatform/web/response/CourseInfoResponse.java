@@ -11,6 +11,8 @@ public record CourseInfoResponse(
         String literature,
         String tasks,
         String links,
-        boolean showForOwner
+        boolean showForOwner,
+        int studentsIdsSize,
+        int studentsWithRequestIdsSize
 ) {
 }

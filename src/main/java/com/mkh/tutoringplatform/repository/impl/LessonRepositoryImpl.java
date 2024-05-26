@@ -3,9 +3,7 @@ package com.mkh.tutoringplatform.repository.impl;
 import com.mkh.tutoringplatform.domain.user.Lesson;
 import com.mkh.tutoringplatform.repository.LessonRepository;
 import com.mkh.tutoringplatform.repository.entity.SqlGroup;
-import com.mkh.tutoringplatform.repository.jpa.JpaGroupRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaLessonRepository;
-import com.mkh.tutoringplatform.repository.jpa.JpaTeacherRepository;
+import com.mkh.tutoringplatform.repository.jpa.*;
 import com.mkh.tutoringplatform.repository.mapper.LessonMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -23,6 +21,10 @@ public class LessonRepositoryImpl implements LessonRepository {
     private final JpaGroupRepository jpaGroupRepository;
 
     private final JpaTeacherRepository jpaTeacherRepository;
+
+    private final JpaCourseRepository jpaCourseRepository;
+
+    private final JpaStudentRepository jpaStudentRepository;
 
     @Override
     public void deleteById(long id) {
@@ -57,6 +59,27 @@ public class LessonRepositoryImpl implements LessonRepository {
     @Override
     public List<Lesson> getLessonsFromGroups(List<Long> groupsIds) {
         return jpaGroupRepository.findAllById(groupsIds).stream()
+                .map(SqlGroup::getLessons)
+                .flatMap(Collection::stream)
+                .map(LessonMapper::mapToDomainModel)
+                .toList();
+    }
+
+    @Override
+    public List<Lesson> getStudentLessonsFromCourse(long courseId, long studentId) {
+        return jpaCourseRepository.getReferenceById(courseId).getGroups().stream()
+                .filter(group -> group.getStudents().stream().anyMatch(sqlStudent -> sqlStudent.getId() == studentId))
+                .map(SqlGroup::getLessons)
+                .flatMap(Collection::stream)
+                .map(LessonMapper::mapToDomainModel)
+                .toList();
+    }
+
+    @Override
+    public List<Lesson> getStudentLessons(long studentId) {
+        var student = jpaStudentRepository.getReferenceById(studentId);
+        return student.getGroups().stream()
+                .filter(group -> group.getStudents().stream().anyMatch(sqlStudent -> sqlStudent.getId() == studentId))
                 .map(SqlGroup::getLessons)
                 .flatMap(Collection::stream)
                 .map(LessonMapper::mapToDomainModel)

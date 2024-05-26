@@ -15,6 +15,7 @@ public class CourseMapper {
                 .description(sqlCourse.getDescription())
                 .links(sqlCourse.getLinks())
                 .studentsIds(sqlCourse.getStudents().stream().map(SqlStudent::getId).toList())
+                .studentsWithRequestIds(sqlCourse.getStudentsWithRequest().stream().map(SqlStudent::getId).toList())
                 .teacherId(sqlCourse.getTeacher().getId())
                 .build();
     }

@@ -22,4 +22,8 @@ public interface LessonService {
     List<Lesson> getLessonsFromGroup(long groupId);
 
     void deleteLesson(long lessonId);
+
+    List<Lesson> getStudentLessonsFromCourse(long courseId, long studentId);
+
+    List<Lesson> getStudentLessons(long studentId);
 }

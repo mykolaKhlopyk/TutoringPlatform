@@ -4,10 +4,48 @@
     <title>Course Details</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <style>
+        .footer-links {
+            display: flex;
+            align-items: center; /* Aligns items vertically in the center */
+            justify-content: space-between; /* Distributes space between elements */
+        }
+
+        .course-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the links horizontally in their container */
+            flex-grow: 1; /* Allows the container to expand to use available space */
+        }
+
+        .course-action-link {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none; /* Removes underline from links */
+            margin: 0 10px; /* Adds spacing between the links */
+        }
+
+        .delete-course-wrapper {
+            display: inline-block; /* Keeps the form inline */
+        }
+
+        .delete-course-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
         /* Basic body styling */
         body {
             font-family: 'Arial', sans-serif;
@@ -61,6 +99,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
+            margin-right: 10px; /* Added space between buttons */
         }
 
         button:hover {
@@ -119,6 +158,11 @@
             cursor: pointer;
         }
 
+        form.inline {
+            display: inline-block;
+            margin: 0; /* Remove default form margin */
+        }
+
         .footer-links img {
             width: 50px;
             height: auto;
@@ -169,6 +213,13 @@
         .footer-spacer {
             height: 70px; /* Set this value to match the height of your footer */
         }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -196,12 +247,13 @@
     <div th:if="${messageSaved}">
         <div id="notification" class="notification">Updates saved!</div>
     </div>
-
-
 </div>
 
-<div class="course-details">
+<div th:if="${groups.size()==0}">
+    <button id="createGroupButton1" class="btn btn-primary button createGroupButton" style="margin-left: 50px; margin-bottom: 50px">Create New Group</button>
+</div>
 
+<div th:if="${groups.size()>0}" class="course-details">
     <h2>Groups</h2>
     <div class="container py-5">
         <div class="row">
@@ -222,12 +274,13 @@
                     </td>
                     <td th:text="${group.studentsIds.size()}"/>
                     <td>
-                        <button class="btn btn-primary createLessonButton button" th:data-group-id="${group.id}">Create New
+                        <button class="btn btn-primary createLessonButton button" th:data-group-id="${group.id}">Create
+                            New
                             Lesson
                         </button>
                         <form th:method="DELETE" th:action="@{|/groups/${group.id}|}" style="display: inline-block;">
                             <input type="hidden" name="courseId" th:value="${course.id}">
-                            <input type="submit" value="Delete group">
+                            <input class="btn btn-primary button" type="submit" value="Delete group">
                         </form>
                     </td>
                 </tr>
@@ -235,7 +288,7 @@
             </table>
         </div>
     </div>
-    <button id="createGroupButton" class="btn btn-primary button">Create New Group</button>
+    <button id="createGroupButton" class="btn btn-primary button createGroupButton">Create New Group</button>
 </div>
 
 <!-- Create group modal -->
@@ -248,17 +301,21 @@
 
 <footer>
     <div class="footer-links">
-        <a th:href="@{/students/course/{id}/request/subscribe(id = ${course.getId()})}">
-            <img th:src="@{'image/subscribers.webp'}" alt="Subscribed Students">
-        </a>
-        <a th:href="@{/students/course/{id}/request/requested(id = ${course.getId()})}">
-            <img src="test.png" alt="Requested to subscribe students">
-        </a>
+        <div class="course-actions">
+            <a class="course-action-link" th:href="@{/students/course/{id}/request/subscribe(id = ${course.getId()})}" th:text="'Subscribed students'">
+                Subscribed students
+            </a>
+            <a class="course-action-link" th:href="@{/students/course/{id}/request/requested(id = ${course.getId()})}"
+               th:text="'Requested to subscribe students('+${requestedAmount}+')'">
+                Requested to subscribe students
+            </a>
+        </div>
+        <div class="delete-course-wrapper">
+            <form th:method="DELETE" th:action="@{|/courses/${course.id}|}">
+                <input type="submit" class="delete-course-button" value="Remove course">
+            </form>
+        </div>
     </div>
-    <form th:method="DELETE" th:action="@{|/courses/${course.id}|}" style="display: inline-block;">
-        <input type="submit" value="Remove course"
-               style="background-color: red; color: white; border: none; padding: 10px 20px; cursor: pointer;">
-    </form>
 </footer>
 
 <script th:inline="javascript">
@@ -322,7 +379,8 @@
         });
 
         var groupModal = document.getElementById("createGroupModal");
-        var btn = document.getElementById("createGroupButton");
+        // var btn = document.getElementById("createGroupButton");
+        var btn = document.getElementsByClassName("createGroupButton").item(0);
         var span = document.getElementsByClassName("close")[0];
 
         btn.onclick = function () {

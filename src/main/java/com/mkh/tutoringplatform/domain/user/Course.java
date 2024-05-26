@@ -17,6 +17,8 @@ public class Course {
 
     private List<Long> studentsIds;
 
+    private List<Long> studentsWithRequestIds;
+
     private String description;
 
     private Long teacherId;

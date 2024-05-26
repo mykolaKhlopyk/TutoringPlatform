@@ -28,4 +28,16 @@ public record LessonInfoResponse(
                 group.getName()
         );
     }
+
+    public static LessonInfoResponse of(Lesson lesson) {
+        return new LessonInfoResponse(
+                lesson.getId(),
+                lesson.getName(),
+                lesson.getDescription(),
+                lesson.getTimeStart().toString(),
+                lesson.getTimeStart().toInstant().plusSeconds(lesson.getDuration() * 60L).toString(),
+                0,
+                null
+        );
+    }
 }
