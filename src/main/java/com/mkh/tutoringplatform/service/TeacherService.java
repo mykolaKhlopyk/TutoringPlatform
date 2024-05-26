@@ -9,4 +9,6 @@ public interface TeacherService {
     Teacher findById(long id);
 
     List<Teacher> getAll();
+
+    long getCourseOwnerId(long courseId);
 }

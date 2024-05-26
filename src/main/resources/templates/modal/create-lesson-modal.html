@@ -1,0 +1,36 @@
+<div th:fragment="createLesson(groupId, courseId, actionUrl)" id="createLessonModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form-group">
+            <form th:action="${actionUrl}" th:method="post">
+                <div class="form-group">
+                    <label for="lessonName">Lesson Name:</label>
+                    <input type="text" class="form-control" id="lessonName" placeholder="Enter lesson name"
+                           name="lessonName">
+                </div>
+
+                <div class="form-group">
+                    <label for="lessonDescription">Lesson Description:</label>
+                    <input type="text" class="form-control" id="lessonDescription" placeholder="Enter lesson description"
+                           name="lessonDescription">
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">Start Time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" name="startDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration (minutes):</label>
+                    <input type="number" class="form-control" id="duration" name="duration"
+                           placeholder="Enter duration in minutes">
+                </div>
+
+                <input type="hidden" id="courseId" name="courseId" th:value="${courseId}">
+                <input type="hidden" id="groupId" name="groupId" value="">
+
+                <button type="submit" class="btn btn-primary button">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

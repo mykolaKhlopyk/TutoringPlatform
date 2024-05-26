@@ -15,4 +15,6 @@ public interface StudentService {
     List<Student> getAllStudentsAskedForSubscribeForCourse(long courseId);
 
     List<Student> getAllStudentsFromCourse(long courseId);
+
+    List<Student> getAllStudentsFromGroup(long groupId);
 }

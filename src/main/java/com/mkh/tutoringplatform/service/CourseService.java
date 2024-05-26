@@ -27,4 +27,6 @@ public interface CourseService {
     void agreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
 
     void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId);
+
+    void withdrawStudentFromCourse(long courseId, long studentId);
 }

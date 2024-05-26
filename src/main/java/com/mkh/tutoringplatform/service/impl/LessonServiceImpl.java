@@ -20,14 +20,20 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
 
     @Override
-    public void createLesson(long groupId, String lessonName, Date timeStart, int duration) {
+    public Lesson createLesson(long groupId, String lessonName, String lessonDescription,  Date timeStart, int duration) {
         Lesson lesson = Lesson.builder()
                 .name(lessonName)
+                .description(lessonDescription)
                 .duration(duration)
                 .timeStart(timeStart)
                 .groupId(groupId)
                 .build();
-        lessonRepository.save(lesson);
+        return lessonRepository.save(lesson);
+    }
+
+    @Override
+    public Lesson getLessonById(long lessonId) {
+        return lessonRepository.findById(lessonId).get(); //orElseThrow
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface LessonRepository {
 
     Optional<Lesson> findById(long id);
 
-    void save(Lesson lesson);
+    Lesson save(Lesson lesson);
 
     List<Lesson> getTeacherLessons(long teacherId);
 

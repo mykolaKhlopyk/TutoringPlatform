@@ -1,6 +1,7 @@
 package com.mkh.tutoringplatform.web.controller;
 
 import com.mkh.tutoringplatform.domain.user.Course;
+import com.mkh.tutoringplatform.domain.user.user.User;
 import com.mkh.tutoringplatform.service.CourseService;
 import com.mkh.tutoringplatform.service.GroupService;
 import com.mkh.tutoringplatform.service.StudentService;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mkh.tutoringplatform.domain.user.user.User.UserRole.TEACHER;
+import static com.mkh.tutoringplatform.domain.user.user.User.UserRole.UNSPECIFIED;
 import static com.mkh.tutoringplatform.web.utils.ControllerUtils.getAuthenticatedUser;
 import static com.mkh.tutoringplatform.web.utils.ControllerUtils.isAvailableResourceForUser;
 
@@ -35,7 +37,13 @@ public class CourseController {
     public String getAllCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         var courses = courseService.getAllCourses();
 
-        var isAvailableToJoin = userDetails != null && getAuthenticatedUser(userDetails).getUserRole() == TEACHER;
+        String role;
+        if (userDetails == null){
+            role = UNSPECIFIED.name();
+        } else {
+            role = getAuthenticatedUser(userDetails).getUserRole().name();
+        }
+
         var coursesIdNotToShow = coursesNotToShow(userDetails);
         var result = courses.stream()
                 .filter(course -> !coursesIdNotToShow.contains(course.getId()))
@@ -44,7 +52,7 @@ public class CourseController {
         model.addAllAttributes(Map.of(
                 "auth", false,
                 "courses", result,
-                "isAvailableToJoin", isAvailableToJoin
+                "role", role
         ));
         return "course/all-courses-page";
     }
@@ -142,7 +150,7 @@ public class CourseController {
             @PathVariable("studentId") long studentId
     ) {
         courseService.agreeRequestForSubscribeStudentToCourse(courseId, studentId);
-        return "redirect:/courses";
+        return "redirect:/students/course/" + courseId + "/request/requested";
     }
 
     @PatchMapping("/{id}/request/subscribe/disagree/{studentId}")
@@ -152,14 +160,18 @@ public class CourseController {
             @PathVariable("studentId") long studentId
     ) {
         courseService.disagreeRequestForSubscribeStudentToCourse(courseId, studentId);
-        return "redirect:/courses";
+        return "redirect:/students/course/" + courseId + "/request/requested";
     }
 
+    @PatchMapping("/{courseId}/student/{studentId}/unsubscribe")
     //TODO
-//    @PatchMapping("/{id}/request/unsubscribe")
-//    public String unsubscribeToCourse(String courseId) {
-////        courseService.
-//    }
+    public String unsubscribeToCourse(
+            @PathVariable("courseId") long courseId,
+            @PathVariable("studentId") long studentId
+    ) {
+        courseService.withdrawStudentFromCourse(courseId, studentId);
+        return "redirect:/students/course/" + courseId + "/request/subscribe";
+    }
 
     private List<Long> coursesNotToShow(UserDetails userDetails) {
         if (userDetails == null) {
@@ -171,6 +183,7 @@ public class CourseController {
                     .map(Course::getId).toList();
             case TEACHER -> courseService.getTeacherCourses(user.getUserInitiatorId()).stream()
                     .map(Course::getId).toList();
+            default -> null;
         };
     }
 

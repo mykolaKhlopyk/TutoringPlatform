@@ -108,4 +108,14 @@ public class CourseRepositoryImpl implements CourseRepository {
 
         jpaCourseRepository.save(course);
     }
+
+    @Override
+    public void withdrawStudentFromCourse(long courseId, long studentId) {
+        var course = jpaCourseRepository.getReferenceById(courseId);
+        var student = jpaStudentRepository.getReferenceById(studentId);
+
+        course.getStudents().remove(student);
+
+        jpaCourseRepository.save(course);
+    }
 }

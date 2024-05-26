@@ -12,5 +12,9 @@ public interface GroupService {
 
     void deleteGroup(long groupId);
 
-    Group findById(long groupId);
+    Group getGroupById(long groupId);
+
+    List<Group> getTeacherGroups(long teacherId);
+
+    List<Group> getGroupsByIds(List<Long> groupsIds);
 }

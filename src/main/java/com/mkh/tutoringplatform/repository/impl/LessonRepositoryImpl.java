@@ -35,11 +35,11 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void save(Lesson lesson) {
+    public Lesson save(Lesson lesson) {
         var sqlLesson = LessonMapper.mapToSqlModelWithoutDependencies(lesson);
         var group = jpaGroupRepository.getReferenceById(lesson.getGroupId());
         sqlLesson.setGroup(group);
-        jpaLessonRepository.save(sqlLesson);
+        return LessonMapper.mapToDomainModel(jpaLessonRepository.save(sqlLesson));
     }
 
     @Override

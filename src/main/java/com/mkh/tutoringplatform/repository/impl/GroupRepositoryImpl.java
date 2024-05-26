@@ -2,6 +2,7 @@ package com.mkh.tutoringplatform.repository.impl;
 
 import com.mkh.tutoringplatform.domain.user.Group;
 import com.mkh.tutoringplatform.repository.GroupRepository;
+import com.mkh.tutoringplatform.repository.entity.SqlCourse;
 import com.mkh.tutoringplatform.repository.entity.SqlGroup;
 import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaGroupRepository;
@@ -11,6 +12,7 @@ import com.mkh.tutoringplatform.repository.mapper.GroupMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +50,22 @@ public class GroupRepositoryImpl implements GroupRepository {
     public List<Group> getGroupsFromCourse(long courseId) {
         return jpaCourseRepository.getReferenceById(courseId)
                 .getGroups().stream()
+                .map(GroupMapper::mapToDomainModel)
+                .toList();
+    }
+
+    @Override
+    public List<Group> getTeacherGroups(long teacherId) {
+        return jpaTeacherRepository.getReferenceById(teacherId).getCourses().stream()
+                .map(SqlCourse::getGroups)
+                .flatMap(Collection::stream)
+                .map(GroupMapper::mapToDomainModel)
+                .toList();
+    }
+
+    @Override
+    public List<Group> getGroupsByIds(List<Long> groupsIds) {
+        return jpaGroupRepository.findAllById(groupsIds).stream()
                 .map(GroupMapper::mapToDomainModel)
                 .toList();
     }

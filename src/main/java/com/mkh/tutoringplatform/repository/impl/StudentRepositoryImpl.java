@@ -3,6 +3,7 @@ package com.mkh.tutoringplatform.repository.impl;
 import com.mkh.tutoringplatform.domain.user.Student;
 import com.mkh.tutoringplatform.repository.StudentRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaCourseRepository;
+import com.mkh.tutoringplatform.repository.jpa.JpaGroupRepository;
 import com.mkh.tutoringplatform.repository.jpa.JpaStudentRepository;
 import com.mkh.tutoringplatform.repository.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class StudentRepositoryImpl implements StudentRepository {
     private final JpaStudentRepository jpaStudentRepository;
 
     private final JpaCourseRepository jpaCourseRepository;
+
+    private final JpaGroupRepository jpaGroupRepository;
 
     @Override
     public Optional<Student> findById(long id) {
@@ -53,5 +56,12 @@ public class StudentRepositoryImpl implements StudentRepository {
     public List<Student> getAllStudentsFromCourse(long courseId) {
         var course = jpaCourseRepository.getReferenceById(courseId);
         return course.getStudents().stream().map(StudentMapper::mapToDomainModel).toList();
+    }
+
+    @Override
+    public List<Student> getAllStudentsFromGroup(long groupId) {
+        return jpaGroupRepository.getReferenceById(groupId).getStudents().stream()
+                .map(StudentMapper::mapToDomainModel)
+                .toList();
     }
 }

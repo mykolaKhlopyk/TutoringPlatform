@@ -4,7 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record CourseInfoResponse(
-
         String name,
         String description,
         String teacherName,

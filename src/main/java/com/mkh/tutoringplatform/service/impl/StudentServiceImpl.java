@@ -39,4 +39,9 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getAllStudentsFromCourse(long courseId) {
         return studentRepository.getAllStudentsFromCourse(courseId);
     }
+
+    @Override
+    public List<Student> getAllStudentsFromGroup(long groupId) {
+        return studentRepository.getAllStudentsFromGroup(groupId);
+    }
 }

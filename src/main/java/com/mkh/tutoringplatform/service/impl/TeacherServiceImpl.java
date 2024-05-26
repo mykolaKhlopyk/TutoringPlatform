@@ -24,4 +24,9 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Teacher> getAll() {
         return teacherRepository.findAll();
     }
+
+    @Override
+    public long getCourseOwnerId(long courseId) {
+        return teacherRepository.getCourseOwnerId(courseId);
+    }
 }

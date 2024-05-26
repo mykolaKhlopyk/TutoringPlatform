@@ -15,6 +15,7 @@
             align-items: center;
             padding: 10px 50px;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -24,24 +25,27 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
             padding-top: 100px;
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
+
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+
         .close:hover,
         .close:focus {
             color: black;
@@ -52,16 +56,19 @@
 </head>
 <body>
 
-<div th:replace="headers/teacher-header"></div>
+<div th:if="${role} == 'TEACHER'">
+    <div th:replace="headers/teacher-header"></div>
+</div>
+<div th:if="${role} == 'STUDENT'">
+    <div th:replace="headers/student-header"></div>
+</div>
 
-<!--<div class="header-area">-->
-<!--    <h1>Courses List</h1>-->
-<!--    <div>-->
-<!--        <button id="myBtn" class="btn btn-primary">Create Course</button>-->
-<!--        <a th:if="${auth}" th:href="@{|/auth/login|}" class="btn btn-lg btn-secondary btn-block">Login</a>-->
-<!--        <button th:href="@{|/auth/login|}" class="btn btn-info">Support</button>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="header-area">
+    <h1>Courses List</h1>
+    <div>
+        <a th:if="${role} == 'UNSPECIFIED'" th:href="@{|/auth/login|}" class="btn btn-lg btn-secondary btn-block">Login</a>
+    </div>
+</div>
 <div class="container mt-4">
     <table id="courseTable" class="table table-striped" style="width:100%">
         <thead>
@@ -78,7 +85,8 @@
             <td th:text="${course.description}"></td>
             <td th:text="${course.teacherName}"></td>
             <td>
-                <form th:method="PATCH" th:action="@{|courses/${course.courseId()}/request/subscribe|}"  style="display: inline-block;">
+                <form th:method="PATCH" th:action="@{|courses/${course.courseId()}/request/subscribe|}"
+                      style="display: inline-block;">
                     <input type="submit" value="Agree">
                 </form>
             </td>
@@ -87,47 +95,11 @@
     </table>
 </div>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <form th:action="@{|/courses|}" th:object="${course}" method="post">
-            <div class="form-group">
-                <label for="courseName">Course Name:</label>
-                <input type="text" class="form-control" id="courseName" placeholder="Enter course name" name="courseName">
-            </div>
-            <div class="form-group">
-                <label for="courseDescription">Course info:</label>
-                <input type="text" class="form-control" id="courseDescription" placeholder="Enter course description" name="courseDescription">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
-
 <script>
     $(document).ready(function () {
         $('#courseTable').DataTable({
             "pagingType": "full_numbers"
         });
-
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("myBtn");
-        var span = document.getElementsByClassName("close")[0];
-
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
     });
 </script>
 </body>

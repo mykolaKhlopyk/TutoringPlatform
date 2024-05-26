@@ -73,4 +73,9 @@ public class CourseServiceImpl implements CourseService {
     public void disagreeRequestForSubscribeStudentToCourse(long courseId, long studentId) {
         courseRepository.disagreeRequestForSubscribeStudentToCourse(courseId, studentId);
     }
+
+    @Override
+    public void withdrawStudentFromCourse(long courseId, long studentId) {
+        courseRepository.withdrawStudentFromCourse(courseId, studentId);
+    }
 }

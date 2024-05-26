@@ -14,4 +14,8 @@ public interface GroupRepository {
     void deleteById(long id);
 
     List<Group> getGroupsFromCourse(long courseId);
+
+    List<Group> getTeacherGroups(long teacherId);
+
+    List<Group> getGroupsByIds(List<Long> groupsIds);
 }

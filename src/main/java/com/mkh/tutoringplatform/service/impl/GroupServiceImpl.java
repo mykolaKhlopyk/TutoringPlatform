@@ -39,8 +39,18 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group findById(long groupId) {
+    public Group getGroupById(long groupId) {
         return groupRepository.findById(groupId).get();
+    }
+
+    @Override
+    public List<Group> getTeacherGroups(long teacherId) {
+        return groupRepository.getTeacherGroups(teacherId);
+    }
+
+    @Override
+    public List<Group> getGroupsByIds(List<Long> groupsIds) {
+        return groupRepository.getGroupsByIds(groupsIds);
     }
 
     private List<Lesson> getFinishedLessons(List<Lesson> lessons) {

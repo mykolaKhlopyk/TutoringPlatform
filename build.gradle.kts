@@ -10,16 +10,12 @@ plugins {
     id("io.freefair.lombok") version "8.6"
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
-
-
+    id("com.google.protobuf") version "0.9.4"
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven {
-//        url = uri("https://repo.maven.apache.org/maven2/")
-//    }
 }
 
 dependencies {
@@ -45,18 +41,9 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.32")
     compileOnly("javax.servlet:javax.servlet-api:4.0.1")
 
-//    api(libs.org.springframework.boot.spring.boot.starter.data.jpa)
-//    api(libs.org.springframework.boot.spring.boot.starter.thymeleaf)
-//    api(libs.org.springframework.boot.spring.boot.starter.web)
-//    api(libs.org.thymeleaf.extras.thymeleaf.extras.springsecurity5)
-//    api(libs.org.springframework.boot.spring.boot.starter.security)
-//    api(libs.org.springframework.boot.spring.boot.starter.validation)
-//    api(libs.org.projectlombok.lombok)
-//    api(libs.javax.validation.validation.api)
-//    api(libs.org.hibernate.validator.hibernate.validator)
-//    runtimeOnly(libs.org.postgresql.postgresql)
-//    compileOnly(libs.javax.servlet.javax.servlet.api)
 
+    implementation("io.nats:jnats:2.16.14")
+    implementation("com.google.protobuf:protobuf-java:3.25.0")
 }
 
 group = "com.mkh"

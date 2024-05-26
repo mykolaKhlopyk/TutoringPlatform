@@ -17,7 +17,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("/course/{id}/request/subscribe")
+    @GetMapping("/course/{id}/request/requested")
     public String getAllStudentsAskedForSubscribeForCourse(@PathVariable("id") long courseId, Model model) {
         var students = studentService.getAllStudentsAskedForSubscribeForCourse(courseId);
         model.addAllAttributes(Map.of(
@@ -27,7 +27,7 @@ public class StudentController {
         return "student/all-requested-for-subscribe-students-page";
     }
 
-    @GetMapping("/course/{id}/subscribed")
+    @GetMapping("/course/{id}/request/subscribe")
     public String getAllSubscribedStudentsForCourse(@PathVariable("id") long courseId, Model model) {
         var students = studentService.getAllStudentsFromCourse(courseId);
         model.addAllAttributes(Map.of(

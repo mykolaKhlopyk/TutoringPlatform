@@ -1,0 +1,41 @@
+<div th:fragment="createGroup(courseId, students)" id="createGroupModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form-group">
+            <label for="groupName">Group Name:</label>
+            <input type="text" class="form-control" id="groupName" placeholder="Enter group name" name="groupName"
+                   required>
+        </div>
+        <form id="selectedStudentsForm" th:action="@{|/groups/course/${courseId}|}" th:object="${selectedStudents}"
+              method="post">
+            <div class="container py-5">
+                <div class="row">
+                    <table id="example2" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Username</th>
+                            <th>E-mail</th>
+                            <th>Full name</th>
+                            <th>Include student</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="student, iStat: ${students}">
+                            <td th:text="${iStat.index + 1}"/>
+                            <td th:text="${student.user.username}"/>
+                            <td th:text="${student.user.email }"/>
+                            <td th:text="${student.user.name + ' ' + student.user.surname}"/>
+                            <td>
+                                <input type="checkbox" th:name="'selectedStudents[' + ${iStat.index} + '].selected'"
+                                       th:value="${student.id}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <button class="button" type="submit" form="selectedStudentsForm">Submit</button>
+    </div>
+</div>

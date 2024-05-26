@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lessons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        /* Basic body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header styles */
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Course details container */
+        .course-details {
+            background: #fff;
+            margin: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* List styles for groups */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #0275d8;
+        }
+
+        /* Button styling */
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer styling */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 100px;
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-links img {
+            width: 50px;
+            height: auto;
+            vertical-align: middle;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .course-details, footer {
+                margin: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .scrollableTable {
+            width: 100%; /* Adjust the width as needed */
+            border-collapse: collapse;
+        }
+
+        .scrollableTable thead th {
+            background-color: #f2f2f2;
+            position: sticky;
+            /*top: 0; !* Keeps the header on top *!*/
+            /*z-index: 10;*/
+        }
+
+        .scrollableTable tbody {
+            display: block;
+            max-height: 300px; /* Adjust based on your needs */
+            overflow-y: auto;
+        }
+
+        .scrollableTable thead, .scrollableTable tbody tr {
+            display: table;
+            width: 100%; /* Make table rows display full width */
+            table-layout: fixed; /* Optional: Helps columns to have equal width */
+        }
+
+        .scrollableTable th, .scrollableTable td {
+            padding: 8px;
+            border: 1px solid #ddd; /* Styling borders */
+            text-align: left; /* Align text to the left */
+        }
+
+        .footer-spacer {
+            height: 70px; /* Set this value to match the height of your footer */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="headers/teacher-header"></div>
+
+<h1 style="margin-bottom: 30px" th:text="${'Group ' + group.name}"></h1>
+
+<div class="course-details">
+    <h2>Lessons</h2>
+    <div class="container py-5">
+        <div class="row">
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Subject</th>
+                    <th>Start time</th>
+                    <th>Finish time</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lesson, iStat: ${lessons}">
+                    <td th:text="${iStat.index + 1}"/>
+                    <td th:text="${lesson.name}"/>
+                    <td th:text="${lesson.timeStart}"/>
+                    <td th:text="${lesson.getStringTimeFinish()}"/>
+                    <td>
+                        <form th:method="DELETE" th:action="@{|/lessons/${lesson.id}|}"
+                              style="display: inline-block;">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="course-details">
+    <h2>Students</h2>
+    <div class="container py-5">
+        <div class="row">
+            <table id="example2" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student, iStat: ${students}">
+                    <td th:text="${iStat.index + 1}"/>
+                    <td th:text="${student.user.email}"/>
+                    <td th:text="${student.user.username}"/>
+                    <td th:text="${student.user.name}"/>
+                    <td th:text="${student.user.surname}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<button id="createLessonButton" class="btn btn-primary">Create New Lesson</button>
+
+<!-- Create lesson modal -->
+<div th:replace="modal/create-lesson-modal :: createLesson(${group.id}, ${0}, @{|/lessons/group/${group.id}/group-page|})"></div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        var lessonModal = document.getElementById("createLessonModal");
+        var btn = document.getElementById("createLessonButton");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            lessonModal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            lessonModal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == lessonModal) {
+                lessonModal.style.display = "none";
+            }
+        }
+    });
+</script>
+</body>
+</html>

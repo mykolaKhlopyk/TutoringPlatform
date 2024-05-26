@@ -27,3 +27,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  nats:
+    image: nats
+    container_name: "nats"
+    ports:
+      - "4222:4222"

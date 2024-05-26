@@ -56,11 +56,6 @@
 
 <div class="header-area">
     <h1>Courses List</h1>
-    <div>
-        <button id="myBtn" class="btn btn-primary">Create Course</button>
-        <a th:if="${auth}" th:href="@{|/auth/login|}" class="btn btn-lg btn-secondary btn-block">Login</a>
-        <button th:href="@{|/auth/login|}" class="btn btn-info">Support</button>
-    </div>
 </div>
 <div class="container mt-4">
     <table id="courseTable" class="table table-striped" style="width:100%">
@@ -88,6 +83,8 @@
         </tbody>
     </table>
 </div>
+
+<button id="myBtn" class="btn btn-primary">Create Course</button>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">

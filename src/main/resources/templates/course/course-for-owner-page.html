@@ -53,7 +53,7 @@
         }
 
         /* Button styling */
-        button {
+        .button {
             padding: 10px 20px;
             background-color: #007BFF;
             color: white;
@@ -189,7 +189,7 @@
             <label for="link">Links:</label>
             <textarea id="link" name="link" rows="5" th:text="${course.links}"></textarea>
 
-            <button type="submit" onclick="saveMessage()">Save changes</button>
+            <button class="button" type="submit" onclick="saveMessage()">Save changes</button>
         </form>
     </div>
 
@@ -199,6 +199,7 @@
 
 
 </div>
+
 <div class="course-details">
 
     <h2>Groups</h2>
@@ -221,7 +222,7 @@
                     </td>
                     <td th:text="${group.studentsIds.size()}"/>
                     <td>
-                        <button class="btn btn-primary createLessonButton" th:data-group-id="${group.id}">Create New
+                        <button class="btn btn-primary createLessonButton button" th:data-group-id="${group.id}">Create New
                             Lesson
                         </button>
                         <form th:method="DELETE" th:action="@{|/groups/${group.id}|}" style="display: inline-block;">
@@ -234,83 +235,14 @@
             </table>
         </div>
     </div>
-    <button id="createGroupButton" class="btn btn-primary">Create New Group</button>
+    <button id="createGroupButton" class="btn btn-primary button">Create New Group</button>
 </div>
 
-<!-- The Modal -->
-<div id="createGroupModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="form-group">
-            <label for="groupName">Group Name:</label>
-            <input type="text" class="form-control" id="groupName" placeholder="Enter group name" name="groupName"
-                   required>
-        </div>
-        <form id="selectedStudentsForm" th:action="@{|/groups/course/${course.id}|}" th:object="${selectedStudents}"
-              method="post">
-            <div class="container py-5">
-                <div class="row">
-                    <table id="example2" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Username</th>
-                            <th>E-mail</th>
-                            <th>Full name</th>
-                            <th>Operations</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="student, iStat: ${students}">
-                            <td th:text="${iStat.index + 1}"/>
-                            <td th:text="${student.user.username}"/>
-                            <td th:text="${student.user.email }"/>
-                            <td th:text="${student.user.name + ' ' + student.user.surname}"/>
-                            <td>
-                                <input type="checkbox" th:name="'selectedStudents[' + ${iStat.index} + '].selected'"
-                                       th:value="${student.id}">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </form>
-        <button type="submit" form="selectedStudentsForm">Submit</button>
+<!-- Create group modal -->
+<div th:replace="modal/create-group-modal :: createGroup(${course.id}, ${students})"></div>
 
-    </div>
-</div>
-
-<div id="createLessonModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="form-group">
-            <form th:action="@{|/lessons/group/${groupId}|}" th:method="post">
-                <div class="form-group">
-                    <label for="lessonName">Lesson Name:</label>
-                    <input type="text" class="form-control" id="lessonName" placeholder="Enter lesson name"
-                           name="lessonName">
-                </div>
-
-                <div class="form-group">
-                    <label for="startDate">Start Time:</label>
-                    <input type="datetime-local" class="form-control" id="startDate" name="startDate">
-                </div>
-
-                <div class="form-group">
-                    <label for="duration">Duration (minutes):</label>
-                    <input type="number" class="form-control" id="duration" name="duration"
-                           placeholder="Enter duration in minutes">
-                </div>
-
-                <input type="hidden" id="courseId" name="courseId" th:value="${course.id}">
-                <input type="hidden" id="groupId" name="groupId" value="">
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
+<!-- Create lesson modal -->
+<div th:replace="modal/create-lesson-modal :: createLesson(${groupId}, ${course.id}, @{|/lessons/group/${groupId}|})"></div>
 
 <div class="footer-spacer"></div>
 
@@ -319,8 +251,8 @@
         <a th:href="@{/students/course/{id}/request/subscribe(id = ${course.getId()})}">
             <img th:src="@{'image/subscribers.webp'}" alt="Subscribed Students">
         </a>
-        <a th:href="@{/students/requested}">
-            <img src="test.png" alt="Requested to Subscribe Students">
+        <a th:href="@{/students/course/{id}/request/requested(id = ${course.getId()})}">
+            <img src="test.png" alt="Requested to subscribe students">
         </a>
     </div>
     <form th:method="DELETE" th:action="@{|/courses/${course.id}|}" style="display: inline-block;">
@@ -329,7 +261,48 @@
     </form>
 </footer>
 
-<script>
+<script th:inline="javascript">
+    function getSelectedStudents() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var selectedStudents = [];
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedStudents.push(checkbox.value);
+            }
+        });
+
+        return selectedStudents;
+    }
+
+    function getInputName() {
+        var inputElement = document.querySelector('input[name="groupName"]');
+        if (inputElement) {
+            return inputElement.value;
+        } else {
+            return null;
+        }
+    }
+
+    document.getElementById('selectedStudentsForm').addEventListener('submit', function (event) {
+        var selectedStudents = getSelectedStudents();
+        var hiddenInput1 = document.createElement('input');
+
+        var name = getInputName();
+        var hiddenInput2 = document.createElement('input');
+
+        hiddenInput1.setAttribute('type', 'hidden');
+        hiddenInput1.setAttribute('name', 'selectedStudentIds');
+        hiddenInput1.setAttribute('value', selectedStudents);
+
+        hiddenInput2.setAttribute('type', 'hidden');
+        hiddenInput2.setAttribute('name', 'groupName');
+        hiddenInput2.setAttribute('value', name);
+
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput1);
+        document.getElementById('selectedStudentsForm').appendChild(hiddenInput2);
+    });
+
     // Display the notification and hide it after 3 seconds
     document.addEventListener('DOMContentLoaded', function () {
         var notification = document.getElementById('notification');
@@ -390,57 +363,6 @@
             }
         }
     });
-
-    $(document).ready(function () {
-        // $('#example1').DataTable();
-        // $('#example2').DataTable();
-    });
 </script>
-
-<script th:inline="javascript">
-    function getSelectedStudents() {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        var selectedStudents = [];
-
-        checkboxes.forEach(function (checkbox) {
-            if (checkbox.checked) {
-                selectedStudents.push(checkbox.value);
-            }
-        });
-
-        return selectedStudents;
-    }
-
-    function getInputName() {
-        var inputElement = document.querySelector('input[name="groupName"]');
-        if (inputElement) {
-            return inputElement.value;
-        } else {
-            return null;
-        }
-    }
-
-    document.getElementById('selectedStudentsForm').addEventListener('submit', function (event) {
-        var selectedStudents = getSelectedStudents();
-        var hiddenInput1 = document.createElement('input');
-
-        var name = getInputName();
-        var hiddenInput2 = document.createElement('input');
-
-        hiddenInput1.setAttribute('type', 'hidden');
-        hiddenInput1.setAttribute('name', 'selectedStudentIds');
-        hiddenInput1.setAttribute('value', selectedStudents);
-
-
-        hiddenInput2.setAttribute('type', 'hidden');
-        hiddenInput2.setAttribute('name', 'groupName');
-        hiddenInput2.setAttribute('value', name);
-
-
-        document.getElementById('selectedStudentsForm').appendChild(hiddenInput1);
-        document.getElementById('selectedStudentsForm').appendChild(hiddenInput2);
-    });
-</script>
-
 </body>
 </html>

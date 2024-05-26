@@ -12,4 +12,6 @@ public interface TeacherRepository {
     Optional<Teacher> findById(long id);
 
     List<Teacher> findAll();
+
+    long getCourseOwnerId(long courseId);
 }

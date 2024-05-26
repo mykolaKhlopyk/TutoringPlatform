@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface LessonService {
 
-    void createLesson(long groupId, String lessonName, Date timeStart, int duration);
+    Lesson createLesson(long groupId, String lessonName, String lessonDescription, Date timeStart, int duration);
+
+    Lesson getLessonById(long lessonId);
 
     List<Lesson> getTeacherLessons(long teacherId);
 
@@ -20,5 +22,4 @@ public interface LessonService {
     List<Lesson> getLessonsFromGroup(long groupId);
 
     void deleteLesson(long lessonId);
-
 }

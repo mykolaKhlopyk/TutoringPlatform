@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<div th:replace="teacher/teacher-header"></div>
+<div th:replace="headers/teacher-header"></div>
 <div class="container py-5">
     <div class="row">
         <table id="example" class="table table-striped" style="width:100%">
@@ -24,14 +24,14 @@
             <tr th:each="group, iStat: ${groups}">
                 <td th:text="${iStat.index + 1}"/>
                 <td>
-                    <a th:href="@{|/teacher/group/${group.id}/lessons|}" th:text="${group.name}"/>
+                    <a th:href="@{|/groups/${group.id}|}" th:text="${group.name}"/>
                 </td>
-                <td th:text="${group.students.size()}"/>
+                <td th:text="${group.studentsIds.size()}"/>
                 <td>
 <!--                    <form th:method="PATCH" th:action="@{|/teacher/lesson/start/${group.id}|}"  style="display: inline-block;">-->
 <!--                        <input type="submit" value="Begin lesson">-->
 <!--                    </form>-->
-                    <form th:method="DELETE" th:action="@{|/teacher/group/${group.id}|}"  style="display: inline-block;">
+                    <form th:method="DELETE" th:action="@{|/groups/${group.id}|}"  style="display: inline-block;">
                         <input type="submit" value="Delete group">
                     </form>
                 </td>
@@ -40,8 +40,6 @@
         </table>
     </div>
 </div>
-
-<a style="margin-left: 120px" class="btn btn-primary" href="/teacher/create/group" role="button">Create group</a>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>

@@ -5,12 +5,10 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
 </head>
 <body>
-<div th:replace="teacher/teacher-header"></div>
+<div th:replace="headers/teacher-header"></div>
 <div class="container py-5">
-    <div th:replace="headers/teacher-header"></div>
     <div class="row">
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -29,7 +27,7 @@
                 <td th:text="${student.user.email }"/>
                 <td th:text="${student.user.name + ' ' + student.user.surname}"/>
                 <td>
-                    <form th:method="DELETE" th:action="@{|/courses/${courseId}/student/${student.getId()}/unsubscribe|}"
+                    <form th:method="PATCH" th:action="@{|/courses/${courseId}/student/${student.getId()}/unsubscribe|}"
                           style="display: inline-block;">
                         <input type="submit" value="Withdraw">
                     </form>
@@ -37,6 +35,11 @@
             </tr>
             </tbody>
         </table>
+        <div class="d-grid gap-2">
+            <form th:action="@{|/courses/${courseId}/teacher|}" method="get">
+                <button type="submit" class="btn btn-primary btn-block">Go to Page</button>
+            </form>
+        </div>
     </div>
 </div>
 
